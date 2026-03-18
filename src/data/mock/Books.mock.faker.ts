@@ -10,11 +10,26 @@ import { Book } from "../../models/book.model.js";
 function generateBook(id: number): Book { 
   return { 
     id, 
-    title: faker.book.title(), 
-    publishedYear: faker.date.past({ years: 50 }).getFullYear(), 
-    author: faker.person.fullName() 
+    title: faker.book.title(),
+    isbn: faker.string.alphanumeric(13),
+    publishedYear: faker.date.past({ years: 50 }).getFullYear(),
+    pageCount: faker.number.int({min: 50, max: 1000}),
+    language: faker.helpers.arrayElement(["en", "et"]),
+    description: faker.lorem.paragraph(),
+    coverImage: faker.image.url({
+      width: 400,
+      height: 500
+    }),
+    authorId: faker.number.int({min: 1, max: 20}), 
+    publisherId: faker.number.int({min: 1, max: 20}),
+    genreIds: faker.helpers.arrayElements(
+      Array.from({ length: 10 }, (_, i) => i + 1),
+      faker.number.int({min: 1, max: 3})
+    ),
+    createdAt: faker.date.past().toISOString(),
+    updatedAt: faker.date.recent().toISOString()
   }; 
-} 
+}
  
 /** 
  * Generates an array of fake books. 
@@ -40,7 +55,5 @@ function generateSeededBooks(count: number, seed: number = 42): Book[] {
   faker.seed();  
   return books; 
 } 
- 
-// Genereeri 20 raamatut 
 export let books: Book[] = generateBooks(20); 
 export let fakeBooks: Book[] = generateSeededBooks(20)
