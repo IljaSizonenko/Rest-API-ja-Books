@@ -33,4 +33,27 @@ export class BookService {
             reviews: relatedReviews
         };
     }
+    static createBook(data: Book): Book {
+        const newBook: Book = {
+            ...data,
+            id: Date.now()
+        };
+        books.push(newBook);
+        return newBook;
+    }
+    static updateBook(id: number, data: Partial<Book>): Book {
+        const index = books.findIndex(b => b.id === id);
+        if (index === -1) {
+            throw new Error("Book not found");
+        }
+        books[index] = { ...books[index], ...data };
+        return books[index];
+    }
+    static deleteBook(id: number): void {
+        const index = books.findIndex(b => b.id === id);
+        if (index === -1) {
+            throw new Error("Book not found")
+        }
+        books.splice(index, 1)
+    }
 }
