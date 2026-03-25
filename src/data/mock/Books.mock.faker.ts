@@ -14,7 +14,7 @@ function generateBook(id: number): Book {
     isbn: faker.string.alphanumeric(13),
     publishedYear: faker.date.past({ years: 50 }).getFullYear(),
     pageCount: faker.number.int({min: 50, max: 1000}),
-    language: faker.helpers.arrayElement(["en", "et"]),
+    language: faker.helpers.arrayElement(["en", "et", "fr", "de"]),
     description: faker.lorem.paragraph(),
     coverImage: faker.image.url({
       width: 400,
