@@ -4,7 +4,7 @@ import { ReviewController } from "../controllers/review.controller.js";
 const router = Router();
 /**
  * @openapi
- * /reviews/{id}:
+ * /api/v1/reviews/{id}:
  *   get:
  *     summary: Get review by ID
  *     tags:
@@ -25,10 +25,10 @@ const router = Router();
  *       404:
  *         description: Review not found
  */
-router.get("/:id", ReviewController.getById);
+router.get("/api/v1/reviews/:id", ReviewController.getById);
 /**
  * @openapi
- * /reviews/book/{bookId}:
+ * /api/v1/books/{bookId}/reviews:
  *   get:
  *     summary: Get all reviews for a book
  *     tags:
@@ -51,10 +51,10 @@ router.get("/:id", ReviewController.getById);
  *       404:
  *         description: Book not found
  */
-router.get("/book/:bookId", ReviewController.getByBook);
+router.get("/api/v1/books/:bookId/reviews", ReviewController.getByBook);
 /**
  * @openapi
- * /reviews/book/{bookId}:
+ * /api/v1/books/{bookId}/reviews:
  *   post:
  *     summary: Create a review for a book
  *     tags:
@@ -83,10 +83,10 @@ router.get("/book/:bookId", ReviewController.getByBook);
  *       404:
  *         description: Book not found
  */
-router.post("/book/:bookId", ReviewController.create);
+router.post("/api/v1/books/:bookId/reviews", ReviewController.create);
 /**
  * @openapi
- * /reviews/{id}:
+ * /api/v1/reviews/{id}:
  *   put:
  *     summary: Update a review
  *     tags:
@@ -113,10 +113,10 @@ router.post("/book/:bookId", ReviewController.create);
  *       404:
  *         description: Review not found
  */
-router.put("/:id", ReviewController.update);
+router.put("/api/v1/reviews/:id", ReviewController.update);
 /**
  * @openapi
- * /reviews/{id}:
+ * /api/v1/reviews/{id}:
  *   delete:
  *     summary: Delete a review
  *     tags:
@@ -133,17 +133,17 @@ router.put("/:id", ReviewController.update);
  *       404:
  *         description: Review not found
  */
-router.delete("/:id", ReviewController.delete);
+router.delete("/api/v1/reviews/:id", ReviewController.delete);
 /**
  * @openapi
- * /reviews/book/{bookId}/average-rating:
+ * /api/v1/books/{id}/average-rating:
  *   get:
  *     summary: Get average rating for a book
  *     tags:
  *       - Reviews
  *     parameters:
  *       - in: path
- *         name: bookId
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -157,5 +157,5 @@ router.delete("/:id", ReviewController.delete);
  *       404:
  *         description: Book not found
  */
-router.get("/book/:bookId/average-rating", ReviewController.getAverageRating);
+router.get("/api/v1/books/:id/average-rating", ReviewController.getAverageRating);
 export default router
