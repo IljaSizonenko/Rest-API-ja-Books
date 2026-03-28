@@ -1,8 +1,31 @@
 import { reviews } from "../data/mock/Reviews.mock.faker.js";
 import { books } from "../data/mock/Books.mock.faker.js";
-import { Review } from "../models/review.model.js"
+import { Review } from "../models/review.model.js";
+import { Book } from "../models/book.model.js";
 
 export class ReviewService {
+    private static findReviewOrThrow(id: number): Review {
+        const review = reviews.find(r => r.id === id);
+        if (!review) {
+            throw {
+                status: 404,
+                message: "Review not found",
+                details: []
+            };
+        }
+        return review;
+    }
+    private static findBookOrThrow(bookId: number): Book {
+        const book = books.find(b => b.id === bookId);
+        if (!book) {
+            throw {
+                status: 404,
+                message: "Book not found",
+                details: []
+            };
+        }
+        return book;
+    }
     static getReviewsByBookId(bookId: number): Review[] {
         return reviews.filter(review => review.bookId === bookId);
     }
@@ -12,11 +35,10 @@ export class ReviewService {
     static addReview(
         bookId: number,
         data: Omit<Review, "id" | "createdAt" | "bookId">
-    ): Review | undefined {
-        const bookExists = books.some(book => book.id === bookId);
-        if (!bookExists) return undefined;
+    ): Review {
+        this.findBookOrThrow(bookId);
         const newReview: Review = {
-            id: reviews.length + 1,
+            id: Date.now(),
             bookId,
             userName: data.userName,
             rating: data.rating,
@@ -29,17 +51,21 @@ export class ReviewService {
     static updateReview(
         id: number,
         data: Partial<Omit<Review, "id" | "bookId" | "createdAt">>
-    ): Review | undefined {
-        const review = this.getReviewById(id);
-        if (!review) return undefined;
+    ): Review {
+        const review = this.findReviewOrThrow(id);
         Object.assign(review, data);
         return review;
     }
-    static deleteReview(id: number): boolean {
-        const index = reviews. findIndex(r => r.id === id);
-        if (index === -1) return false;
+    static deleteReview(id: number): void {
+        const index = reviews.findIndex(r => r.id === id);
+        if (index === -1) {
+            throw {
+                status: 404,
+                message: "Review not found",
+                details: []
+            };
+        }
         reviews.splice(index, 1);
-        return true;
     }
     static getAverageRating(bookId: number): number | null {
         const bookReviews = this.getReviewsByBookId(bookId);

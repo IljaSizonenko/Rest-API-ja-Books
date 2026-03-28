@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { GenreService } from "../services/Genre.service.js";
+import { parseId } from "../utils/parseId.utils.js";
 
 export class GenreController {
     static getAll(req: Request, res: Response, next: NextFunction) {
@@ -12,7 +13,7 @@ export class GenreController {
     }
     static getById(req: Request, res: Response, next: NextFunction) {
         try {
-            const id  = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             const genre = GenreService.getGenreById(id);
             res.json(genre);
         } catch (err) {
@@ -21,7 +22,7 @@ export class GenreController {
     }
     static getWithRelations(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             const genre = GenreService.getGenreWithRelations(id);
             res.json(genre);
         } catch (err) {

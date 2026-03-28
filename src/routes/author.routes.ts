@@ -4,7 +4,7 @@ import { AuthorController } from "../controllers/author.controller.js";
 const router = Router();
 /**
  * @openapi
- * /authors:
+ * /api/v1/authors:
  *   get:
  *     summary: Get all authors
  *     tags:
@@ -22,7 +22,7 @@ const router = Router();
 router.get("/", AuthorController.getAll);
 /**
  * @openapi
- * /authors/{id}:
+ * /api/v1/authors/{id}:
  *   get:
  *     summary: Get author by ID
  *     tags:
@@ -46,7 +46,7 @@ router.get("/", AuthorController.getAll);
 router.get("/:id", AuthorController.getById);
 /**
  * @openapi
- * /authors/{id}/relations:
+ * /api/v1/authors/{id}/relations:
  *   get:
  *     summary: Get author with related books
  *     tags:

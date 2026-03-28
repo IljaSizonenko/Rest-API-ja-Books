@@ -19,8 +19,7 @@ export class BookService {
         return books.filter(book => book.publisherId === publisherId);
     }
     static getBookWithRelations(id: number) {
-        const book = this.getBookById(id);
-        if (!book) return undefined;
+        const book = this.findBookOrThrow(id);
         const relatedAuthors = authors.filter(a => a.id === book.authorId);
         const relatedGenres = genres.filter(g => book.genreIds.includes(g.id));
         const relatedPublisher = publishers.find(p => p.id === book.publisherId);
@@ -33,7 +32,29 @@ export class BookService {
             reviews: relatedReviews
         };
     }
-    static createBook(data: Book): Book {
+    private static findBookIndexOrThrow(id: number): number {
+        const index = books.findIndex(b => b.id === id);
+        if (index === -1) {
+            throw {
+                status: 404,
+                message: "Book not found",
+                details: []
+            };
+        }
+        return index;
+    }
+    private static findBookOrThrow(id: number): Book {
+        const book = books.find(b => b.id === id);
+        if (!book) {
+            throw {
+                status: 404,
+                message: "Book not found",
+                details: []
+            };
+        }
+        return book;
+    }
+    static createBook(data: Omit<Book, "id">): Book {
         const newBook: Book = {
             ...data,
             id: Date.now()
@@ -42,18 +63,12 @@ export class BookService {
         return newBook;
     }
     static updateBook(id: number, data: Partial<Book>): Book {
-        const index = books.findIndex(b => b.id === id);
-        if (index === -1) {
-            throw new Error("Book not found");
-        }
+        const index = this.findBookIndexOrThrow(id);
         books[index] = { ...books[index], ...data };
         return books[index];
     }
     static deleteBook(id: number): void {
-        const index = books.findIndex(b => b.id === id);
-        if (index === -1) {
-            throw new Error("Book not found")
-        }
-        books.splice(index, 1)
+        const index = this.findBookIndexOrThrow(id);
+        books.splice(index, 1);
     }
 }

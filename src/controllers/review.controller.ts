@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { ReviewService } from "../services/Review.service.js";
+import { parseId } from "../utils/parseId.utils.js";
 
 export class ReviewController {
     static getById(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             const review = ReviewService.getReviewById(id);
             res.json(review);
         } catch (err) {
@@ -13,7 +14,7 @@ export class ReviewController {
     }
     static getByBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const bookId = Number(req.params.bookId);
+            const bookId = parseId(String(req.params.bookId));
             const reviews = ReviewService.getReviewsByBookId(bookId);
             res.json(reviews);
         } catch (err) {
@@ -22,7 +23,7 @@ export class ReviewController {
     }
     static create(req: Request, res: Response, next: NextFunction) {
         try {
-            const bookId = Number(req.params.id);
+            const bookId = parseId(String(req.params.bookId));
             const review = ReviewService.addReview(bookId, req.body);
             res.status(201).json(review);
         } catch (err) {
@@ -31,7 +32,7 @@ export class ReviewController {
     }
     static update(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             const updated = ReviewService.updateReview(id, req.body);
             res.json(updated);
         } catch (err) {
@@ -40,7 +41,7 @@ export class ReviewController {
     }
     static delete(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             ReviewService.deleteReview(id);
             res.status(204).send();
         } catch (err) {
@@ -49,7 +50,7 @@ export class ReviewController {
     }
     static getAverageRating(req: Request, res: Response, next: NextFunction) {
         try {
-            const bookId = Number(req.params.id);
+            const bookId = parseId(String(req.params.bookId));
             const rating = ReviewService.getAverageRating(bookId);
             res.json({ rating });
         } catch (err) {

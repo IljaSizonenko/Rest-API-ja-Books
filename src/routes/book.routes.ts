@@ -1,41 +1,87 @@
 import { Router } from "express";
 import { BookController } from "../controllers/book.controller.js";
+import { ReviewController } from "../controllers/review.controller.js";
 import { validate } from "../middleware/validate.middleware.js";
 import { bookCreateSchema, bookUpdateSchema } from "../validators/book.validators.js";
 
 const router = Router();
 /**
- * @openapi
- * /books:
+ * @swagger
+ * /api/v1/books:
  *   get:
- *     summary: Get all books
- *     tags:
- *       - Books
+ *     summary: Get all books with filtering, sorting and pagination
+ *     tags: [Books]
  *     parameters:
  *       - in: query
- *         name: authorId
+ *         name: title
  *         schema:
- *           type: integer
- *         description: Filter books by author ID
+ *           type: string
+ *         description: Filter by book title (partial match)
  *       - in: query
- *         name: genreId
+ *         name: author
+ *         schema:
+ *           type: string
+ *         description: Filter by author full name (partial match)
+ *       - in: query
+ *         name: language
+ *         schema:
+ *           type: string
+ *         description: Filter by language (exact match)
+ *       - in: query
+ *         name: publishedYear
  *         schema:
  *           type: integer
- *         description: Filter books by genre ID
+ *         description: Filter by published year (exact match)
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [title, publishedYear, language]
+ *         description: Sort field
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sort direction
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number (default 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Items per page (default 10)
  *     responses:
  *       200:
- *         description: List of books
+ *         description: List of books with pagination
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Book'
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Book'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     total:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
  */
 router.get("/", BookController.getAll);
 /**
  * @openapi
- * /books/{id}:
+ * /api/v1/books/{id}:
  *   get:
  *     summary: Get book by ID
  *     tags:
@@ -59,7 +105,7 @@ router.get("/", BookController.getAll);
 router.get("/:id", BookController.getById);
 /**
  * @openapi
- * /books:
+ * /api/v1/books:
  *   post:
  *     summary: Create a new book
  *     tags:
@@ -83,7 +129,7 @@ router.get("/:id", BookController.getById);
 router.post("/", validate(bookCreateSchema), BookController.create);
 /**
  * @openapi
- * /books/{id}:
+ * /api/v1/books/{id}:
  *   put:
  *     summary: Update a book
  *     tags:
@@ -113,7 +159,7 @@ router.post("/", validate(bookCreateSchema), BookController.create);
 router.put("/:id", validate(bookUpdateSchema), BookController.update);
 /**
  * @openapi
- * /books/{id}:
+ * /api/v1/books/{id}:
  *   delete:
  *     summary: Delete a book
  *     tags:
@@ -131,4 +177,86 @@ router.put("/:id", validate(bookUpdateSchema), BookController.update);
  *         description: Book not found
  */
 router.delete("/:id", BookController.delete);
+/**
+ * @openapi
+ * /api/v1/books/{bookId}/reviews:
+ *   get:
+ *     summary: Get all reviews for a book
+ *     tags:
+ *       - Reviews
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: List of reviews for the book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Review'
+ *       404:
+ *         description: Book not found
+ */
+router.get("/:bookId/reviews", ReviewController.getByBook);
+/**
+ * @openapi
+ * /api/v1/books/{bookId}/reviews:
+ *   post:
+ *     summary: Create a review for a book
+ *     tags:
+ *       - Reviews
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Review'
+ *     responses:
+ *       201:
+ *         description: Review created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Review'
+ *       400:
+ *         description: Validation error
+ *       404:
+ *         description: Book not found
+ */
+router.post("/:bookId/reviews", ReviewController.create);
+/**
+ * @openapi
+ * /api/v1/books/{id}/average-rating:
+ *   get:
+ *     summary: Get average rating for a book
+ *     tags:
+ *       - Reviews
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Average rating calculated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: number
+ *       404:
+ *         description: Book not found
+ */
+router.get("/:id/average-rating", ReviewController.getAverageRating);
 export default router

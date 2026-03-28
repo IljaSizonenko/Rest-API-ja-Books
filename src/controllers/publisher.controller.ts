@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { PublisherService } from "../services/Publisher.service.js";
+import { parseId } from "../utils/parseId.utils.js";
 
 export class PublisherController {
     static getAll(req: Request, res: Response, next: NextFunction) {
@@ -12,7 +13,7 @@ export class PublisherController {
     }
     static getById(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id)
+            const id = parseId(String(req.params.id));
             const publisher = PublisherService.getPublisherById(id);
             res.json(publisher);
         } catch (err) {
@@ -21,7 +22,7 @@ export class PublisherController {
     }
     static getWithRelations(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id);
+            const id = parseId(String(req.params.id));
             const publisher = PublisherService.getPublisherWithRelations(id);
             res.json(publisher)
         } catch (err) {

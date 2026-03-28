@@ -4,7 +4,7 @@ import { GenreController } from "../controllers/genre.controller.js"
 const router = Router();
 /**
  * @openapi
- * /genres:
+ * /api/v1/genres:
  *   get:
  *     summary: Get all genres
  *     tags:
@@ -22,7 +22,7 @@ const router = Router();
 router.get("/", GenreController.getAll);
 /**
  * @openapi
- * /genres/{id}:
+ * /api/v1/genres/{id}:
  *   get:
  *     summary: Get genre by ID
  *     tags:
@@ -46,7 +46,7 @@ router.get("/", GenreController.getAll);
 router.get("/:id", GenreController.getById);
 /**
  * @openapi
- * /genres/{id}/relations:
+ * /api/v1/genres/{id}/relations:
  *   get:
  *     summary: Get genre with related books
  *     tags:

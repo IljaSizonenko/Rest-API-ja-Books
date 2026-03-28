@@ -4,7 +4,7 @@ import { PublisherController } from "../controllers/publisher.controller.js";
 const router = Router();
 /**
  * @openapi
- * /publishers:
+ * /api/v1/publishers:
  *   get:
  *     summary: Get all publishers
  *     tags:
@@ -22,7 +22,7 @@ const router = Router();
 router.get("/", PublisherController.getAll);
 /**
  * @openapi
- * /publishers/{id}:
+ * /api/v1/publishers/{id}:
  *   get:
  *     summary: Get publisher by ID
  *     tags:
@@ -46,7 +46,7 @@ router.get("/", PublisherController.getAll);
 router.get("/:id", PublisherController.getById);
 /**
  * @openapi
- * /publishers/{id}/relations:
+ * /api/v1/publishers/{id}/relations:
  *   get:
  *     summary: Get publisher with related books
  *     tags:
