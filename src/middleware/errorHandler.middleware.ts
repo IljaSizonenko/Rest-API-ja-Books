@@ -3,9 +3,9 @@ import { ZodError } from "zod";
 
 export function errorHandler(
     err: unknown,
-    req: Request,
+    _req: Request,
     res: Response,
-    next: NextFunction
+    _next: NextFunction
 ) {
     if (err instanceof ZodError) {
         return res.status(400).json({

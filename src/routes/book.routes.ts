@@ -3,6 +3,7 @@ import { BookController } from "../controllers/book.controller.js";
 import { ReviewController } from "../controllers/review.controller.js";
 import { validate } from "../middleware/validate.middleware.js";
 import { bookCreateSchema, bookUpdateSchema } from "../validators/book.validators.js";
+import { reviewCreateSchema } from "../validators/review.validators.js";
 
 const router = Router();
 /**
@@ -234,7 +235,7 @@ router.get("/:bookId/reviews", ReviewController.getByBook);
  *       404:
  *         description: Book not found
  */
-router.post("/:bookId/reviews", ReviewController.create);
+router.post("/:bookId/reviews", validate(reviewCreateSchema), ReviewController.create);
 /**
  * @openapi
  * /api/v1/books/{id}/average-rating:

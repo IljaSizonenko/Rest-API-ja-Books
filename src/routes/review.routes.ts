@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { ReviewController } from "../controllers/review.controller.js";
+import { validate } from "../middleware/validate.middleware.js";
+import { reviewUpdateSchema } from "../validators/review.validators.js";
 
 const router = Router();
 /**
@@ -55,7 +57,7 @@ router.get("/:id", ReviewController.getById);
  *       404:
  *         description: Review not found
  */
-router.put("/:id", ReviewController.update);
+router.put("/:id", validate(reviewUpdateSchema), ReviewController.update);
 /**
  * @openapi
  * /api/v1/reviews/{id}:
