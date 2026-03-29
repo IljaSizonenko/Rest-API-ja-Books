@@ -260,4 +260,68 @@ router.post("/:bookId/reviews", validate(reviewCreateSchema), ReviewController.c
  *         description: Book not found
  */
 router.get("/:id/average-rating", ReviewController.getAverageRating);
+/**
+ * @openapi
+ * /api/v1/books/{id}/relations:
+ *   get:
+ *     summary: Get a book with all related entities
+ *     tags:
+ *       - Books
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Book ID
+ *     responses:
+ *       200:
+ *         description: Book with related author, genres, publisher and reviews
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 title:
+ *                   type: string
+ *                 isbn:
+ *                   type: string
+ *                 publishedYear:
+ *                   type: integer
+ *                 pageCount:
+ *                   type: integer
+ *                 language:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 coverImage:
+ *                   type: string
+ *                 authorId:
+ *                   type: integer
+ *                 publisherId:
+ *                   type: integer
+ *                 genreIds:
+ *                   type: array
+ *                   items:
+ *                     type: integer
+ *                 authors:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Author'
+ *                 genres:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Genre'
+ *                 publisher:
+ *                   $ref: '#/components/schemas/Publisher'
+ *                 reviews:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Review'
+ *       404:
+ *         description: Book not found
+ */
+router.get("/:id/relations", BookController.getWithRelations);
 export default router

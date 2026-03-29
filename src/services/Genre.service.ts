@@ -7,8 +7,16 @@ export class GenreService {
     static getAllGenres(): Genre[] {
         return genres;
     }
-    static getGenreById(id: number): Genre | undefined {
-        return genres.find(genre => genre.id === id);
+    static getGenreById(id: number): Genre {
+        const genre = genres.find(genre => genre.id === id);
+        if (!genre) {
+            throw {
+                status: 404,
+                message: "Genre not found",
+                details: []
+            };
+        }
+        return genre
     }
     static getBooksByGenre(id: number): Book[] {
         return books.filter(book => book.genreIds.includes(id));

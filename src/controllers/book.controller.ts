@@ -82,4 +82,13 @@ export class BookController {
             next(err);
         }
     }
+    static async getWithRelations(req: Request, res: Response, next: NextFunction) {
+        try {
+            const id = parseId(String(req.params.id));
+            const result = await BookService.getBookWithRelations(id);
+            res.json(result);
+        } catch (err) {
+            next(err)
+        }
+    }
 }

@@ -18,8 +18,16 @@ export class PublisherService {
     static getAllPublishers(): Publisher[] {
         return publishers;
     }
-    static getPublisherById(id: number): Publisher | undefined {
-        return publishers.find(publisher => publisher.id === id);
+    static getPublisherById(id: number): Publisher {
+        const publisher = publishers.find(publisher => publisher.id === id);
+        if (!publisher) {
+            throw {
+                status: 404,
+                message: "Publisher not found",
+                details: []
+            };
+        }
+        return publisher
     }
     static getBooksByPublisher(id: number): Book[] {
         return books.filter(book => book.publisherId === id)

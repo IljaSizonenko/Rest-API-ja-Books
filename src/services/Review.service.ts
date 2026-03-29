@@ -29,8 +29,16 @@ export class ReviewService {
     static getReviewsByBookId(bookId: number): Review[] {
         return reviews.filter(review => review.bookId === bookId);
     }
-    static getReviewById(id: number): Review | undefined {
-        return reviews.find(review => review.id === id);
+    static getReviewById(id: number): Review {
+        const review = reviews.find(review => review.id === id);
+        if (!review) {
+            throw {
+                status: 404,
+                message: "Review not found",
+                details: []
+            };
+        }
+        return review
     }
     static addReview(
         bookId: number,
