@@ -10,38 +10,79 @@ const prisma = new PrismaClient({
 
 async function main() { 
   console.log("Seeding database..."); 
- 
-  await prisma.authorBook.deleteMany(); 
-  await prisma.book.deleteMany(); 
-  await prisma.author.deleteMany(); 
- 
-  const authors = await prisma.$transaction([ 
-    prisma.author.create({ 
-      data: { firstName: "Robert", lastName: "Martin" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Martin", lastName: "Fowler" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Erich", lastName: "Gamma" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Richard", lastName: "Helm" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Ralph", lastName: "Johnson" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "John", lastName: "Vlissides" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Kent", lastName: "Beck" }, 
-    }), 
-    prisma.author.create({ 
-      data: { firstName: "Joshua", lastName: "Bloch" }, 
-    }), 
-  ]); 
- 
+  await prisma.review.deleteMany();
+  await prisma.book.deleteMany();
+  await prisma.author.deleteMany();
+  await prisma.publisher.deleteMany();
+  await prisma.genre.deleteMany();
+  const authors = await prisma.$transaction([
+    prisma.author.create({
+      data: {
+        firstName: "Robert",
+        lastName: "Martin",
+        birthYear: 1952,
+        nationality: "American",
+        biography: "Author of Clean Code and Clean Architecture.",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Martin",
+        lastName: "Fowler",
+        birthYear: 1963,
+        nationality: "British",
+        biography: "Known for Refactoring and enterprise architecture.",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Erich",
+        lastName: "Gamma",
+        birthYear: 1961,
+        nationality: "Swiss",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Richard",
+        lastName: "Helm",
+        birthYear: 1960,
+        nationality: "Australian",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Ralph",
+        lastName: "Johnson",
+        birthYear: 1955,
+        nationality: "American",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "John",
+        lastName: "Vlissides",
+        birthYear: 1961,
+        nationality: "American",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Kent",
+        lastName: "Beck",
+        birthYear: 1961,
+        nationality: "American",
+      },
+    }),
+    prisma.author.create({
+      data: {
+        firstName: "Joshua",
+        lastName: "Bloch",
+        birthYear: 1961,
+        nationality: "American",
+      },
+    }),
+  ]);
   const [ 
     robertMartin, 
     martinFowler, 
@@ -52,83 +93,140 @@ async function main() {
     kentBeck, 
     joshuaBloch, 
   ] = authors; 
- 
-  const books = await prisma.$transaction([ 
-    prisma.book.create({ 
-      data: { title: "Clean Code", publishedYear: 2008 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "The Pragmatic Programmer", publishedYear: 1999 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Refactoring", publishedYear: 1999 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Clean Architecture", publishedYear: 2017 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Design Patterns", publishedYear: 1994 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Test-Driven Development", publishedYear: 2002 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Effective Java", publishedYear: 2001 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Patterns of Enterprise Application Architecture", publishedYear: 2002 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Working Effectively with Legacy Code", publishedYear: 2004 }, 
-    }), 
-    prisma.book.create({ 
-      data: { title: "Refactoring to Patterns", publishedYear: 2004 }, 
-    }), 
-  ]); 
- 
-  const [ 
+
+  const publishers = await prisma.$transaction([
+    prisma.publisher.create({
+      data: {
+        name: "Prentice Hall",
+        country: "USA",
+        foundedYear: 1913,
+        website: "https://www.pearson.com",
+      },
+    }),
+    prisma.publisher.create({
+      data: {
+        name: "Addison-Wesley",
+        country: "USA",
+        foundedYear: 1942,
+        website: "https://www.awl.com",
+      },
+    }),
+  ]);
+  const [prenticeHall, addisonWesley] = publishers;
+
+  const genres = await prisma.$transaction([
+    prisma.genre.create({ data: { name: "Programming" } }),
+    prisma.genre.create({ data: { name: "Software Engineering" } }),
+    prisma.genre.create({ data: { name: "Architecture" } }),
+    prisma.genre.create({ data: { name: "Design Patterns" } }),
+    prisma.genre.create({ data: { name: "Testing" } }),
+  ]);
+  const [programming, engineering, architecture, patterns, testing] = genres;
+
+  const books = await prisma.$transaction([
+    prisma.book.create({
+      data: {
+        title: "Clean Code",
+        isbn: "9780132350884",
+        publishedYear: 2008,
+        pageCount: 464,
+        language: "English",
+        description: "A handbook of agile software craftsmanship.",
+        authorId: robertMartin.id,
+        publisherId: prenticeHall.id,
+        genres: { connect: [{ id: programming.id }, { id: engineering.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "The Pragmatic Programmer",
+        isbn: "9780201616224",
+        publishedYear: 1999,
+        pageCount: 352,
+        language: "English",
+        description: "Classic book on pragmatic software development.",
+        authorId: martinFowler.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: programming.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Refactoring",
+        isbn: "9780201485677",
+        publishedYear: 1999,
+        pageCount: 448,
+        language: "English",
+        description: "Improving the design of existing code.",
+        authorId: martinFowler.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: engineering.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Clean Architecture",
+        isbn: "9780134494166",
+        publishedYear: 2017,
+        pageCount: 432,
+        language: "English",
+        description: "A guide to software structure and design.",
+        authorId: robertMartin.id,
+        publisherId: prenticeHall.id,
+        genres: { connect: [{ id: architecture.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Design Patterns",
+        isbn: "9780201633610",
+        publishedYear: 1994,
+        pageCount: 395,
+        language: "English",
+        description: "Elements of reusable object-oriented software.",
+        authorId: erichGamma.id, // основной автор
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+  ]);
+  const [
     cleanCode, 
-    pragmaticProgrammer, 
+    pragmatic, 
     refactoring, 
-    cleanArchitecture, 
-    designPatterns, 
-    tdd, 
-    effectiveJava, 
-    poeaa, 
-    legacyCode, 
-    refactoringToPatterns, 
-  ] = books; 
+    cleanArch, 
+    designPatternsBook] =
+    books;
  
-  await prisma.authorBook.createMany({ 
-    data: [ 
-      // Robert C. Martin 
-      { authorId: robertMartin.id, bookId: cleanCode.id }, 
-      { authorId: robertMartin.id, bookId: cleanArchitecture.id }, 
-      // Martin Fowler 
-      { authorId: martinFowler.id, bookId: refactoring.id }, 
-      { authorId: martinFowler.id, bookId: poeaa.id }, 
-      // Gang of Four 
-      { authorId: erichGamma.id, bookId: designPatterns.id }, 
-      { authorId: richardHelm.id, bookId: designPatterns.id }, 
-      { authorId: ralphJohnson.id, bookId: designPatterns.id }, 
-      { authorId: johnVlissides.id, bookId: designPatterns.id }, 
-      // Kent Beck 
-      { authorId: kentBeck.id, bookId: tdd.id }, 
-      { authorId: kentBeck.id, bookId: legacyCode.id }, 
-      // Joshua Bloch 
-      { authorId: joshuaBloch.id, bookId: effectiveJava.id }, 
-      // Multiple authors on same book 
-      { authorId: martinFowler.id, bookId: legacyCode.id }, 
-{ authorId: kentBeck.id, bookId: refactoringToPatterns.id }, 
-], 
-}); 
+  await prisma.review.createMany({
+    data: [
+      {
+        bookId: cleanCode.id,
+        userName: "Alice",
+        rating: 5,
+        comment: "Must-read for every developer.",
+      },
+      {
+        bookId: cleanCode.id,
+        userName: "Bob",
+        rating: 4,
+        comment: "Great book, but dense in places.",
+      },
+      {
+        bookId: designPatternsBook.id,
+        userName: "Charlie",
+        rating: 5,
+        comment: "Classic. Still relevant today.",
+      },
+    ],
+  });
 console.log("Seed done!"); 
 } 
 main() 
-.catch((error) => { 
-console.error("Error:", error); 
-process.exit(1); 
-}) 
-.finally(async () => { 
-await prisma.$disconnect(); 
+  .catch((error) => { 
+    console.error("Error:", error); 
+    process.exit(1); 
+  }) 
+  .finally(async () => { 
+  await prisma.$disconnect(); 
 }); 

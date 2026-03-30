@@ -29,35 +29,62 @@ export type AggregateBook = {
 export type BookAvgAggregateOutputType = {
   id: number | null
   publishedYear: number | null
+  pageCount: number | null
+  authorId: number | null
+  publisherId: number | null
 }
 
 export type BookSumAggregateOutputType = {
   id: number | null
   publishedYear: number | null
+  pageCount: number | null
+  authorId: number | null
+  publisherId: number | null
 }
 
 export type BookMinAggregateOutputType = {
   id: number | null
   title: string | null
+  isbn: string | null
   publishedYear: number | null
+  pageCount: number | null
+  language: string | null
+  description: string | null
+  coverImage: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  authorId: number | null
+  publisherId: number | null
 }
 
 export type BookMaxAggregateOutputType = {
   id: number | null
   title: string | null
+  isbn: string | null
   publishedYear: number | null
+  pageCount: number | null
+  language: string | null
+  description: string | null
+  coverImage: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  authorId: number | null
+  publisherId: number | null
 }
 
 export type BookCountAggregateOutputType = {
   id: number
   title: number
+  isbn: number
   publishedYear: number
+  pageCount: number
+  language: number
+  description: number
+  coverImage: number
   createdAt: number
   updatedAt: number
+  authorId: number
+  publisherId: number
   _all: number
 }
 
@@ -65,35 +92,62 @@ export type BookCountAggregateOutputType = {
 export type BookAvgAggregateInputType = {
   id?: true
   publishedYear?: true
+  pageCount?: true
+  authorId?: true
+  publisherId?: true
 }
 
 export type BookSumAggregateInputType = {
   id?: true
   publishedYear?: true
+  pageCount?: true
+  authorId?: true
+  publisherId?: true
 }
 
 export type BookMinAggregateInputType = {
   id?: true
   title?: true
+  isbn?: true
   publishedYear?: true
+  pageCount?: true
+  language?: true
+  description?: true
+  coverImage?: true
   createdAt?: true
   updatedAt?: true
+  authorId?: true
+  publisherId?: true
 }
 
 export type BookMaxAggregateInputType = {
   id?: true
   title?: true
+  isbn?: true
   publishedYear?: true
+  pageCount?: true
+  language?: true
+  description?: true
+  coverImage?: true
   createdAt?: true
   updatedAt?: true
+  authorId?: true
+  publisherId?: true
 }
 
 export type BookCountAggregateInputType = {
   id?: true
   title?: true
+  isbn?: true
   publishedYear?: true
+  pageCount?: true
+  language?: true
+  description?: true
+  coverImage?: true
   createdAt?: true
   updatedAt?: true
+  authorId?: true
+  publisherId?: true
   _all?: true
 }
 
@@ -186,9 +240,16 @@ export type BookGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type BookGroupByOutputType = {
   id: number
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage: string | null
   createdAt: Date
   updatedAt: Date
+  authorId: number
+  publisherId: number
   _count: BookCountAggregateOutputType | null
   _avg: BookAvgAggregateOutputType | null
   _sum: BookSumAggregateOutputType | null
@@ -217,39 +278,76 @@ export type BookWhereInput = {
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   id?: Prisma.IntFilter<"Book"> | number
   title?: Prisma.StringFilter<"Book"> | string
+  isbn?: Prisma.StringFilter<"Book"> | string
   publishedYear?: Prisma.IntFilter<"Book"> | number
+  pageCount?: Prisma.IntFilter<"Book"> | number
+  language?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringFilter<"Book"> | string
+  coverImage?: Prisma.StringNullableFilter<"Book"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
-  authors?: Prisma.AuthorBookListRelationFilter
+  authorId?: Prisma.IntFilter<"Book"> | number
+  publisherId?: Prisma.IntFilter<"Book"> | number
+  author?: Prisma.XOR<Prisma.AuthorScalarRelationFilter, Prisma.AuthorWhereInput>
+  publisher?: Prisma.XOR<Prisma.PublisherScalarRelationFilter, Prisma.PublisherWhereInput>
+  genres?: Prisma.GenreListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type BookOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isbn?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  authors?: Prisma.AuthorBookOrderByRelationAggregateInput
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
+  author?: Prisma.AuthorOrderByWithRelationInput
+  publisher?: Prisma.PublisherOrderByWithRelationInput
+  genres?: Prisma.GenreOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  isbn?: string
   AND?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   OR?: Prisma.BookWhereInput[]
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   title?: Prisma.StringFilter<"Book"> | string
   publishedYear?: Prisma.IntFilter<"Book"> | number
+  pageCount?: Prisma.IntFilter<"Book"> | number
+  language?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringFilter<"Book"> | string
+  coverImage?: Prisma.StringNullableFilter<"Book"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
-  authors?: Prisma.AuthorBookListRelationFilter
-}, "id">
+  authorId?: Prisma.IntFilter<"Book"> | number
+  publisherId?: Prisma.IntFilter<"Book"> | number
+  author?: Prisma.XOR<Prisma.AuthorScalarRelationFilter, Prisma.AuthorWhereInput>
+  publisher?: Prisma.XOR<Prisma.PublisherScalarRelationFilter, Prisma.PublisherWhereInput>
+  genres?: Prisma.GenreListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
+}, "id" | "isbn">
 
 export type BookOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isbn?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
   _count?: Prisma.BookCountOrderByAggregateInput
   _avg?: Prisma.BookAvgOrderByAggregateInput
   _max?: Prisma.BookMaxOrderByAggregateInput
@@ -263,56 +361,107 @@ export type BookScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BookScalarWhereWithAggregatesInput | Prisma.BookScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Book"> | number
   title?: Prisma.StringWithAggregatesFilter<"Book"> | string
+  isbn?: Prisma.StringWithAggregatesFilter<"Book"> | string
   publishedYear?: Prisma.IntWithAggregatesFilter<"Book"> | number
+  pageCount?: Prisma.IntWithAggregatesFilter<"Book"> | number
+  language?: Prisma.StringWithAggregatesFilter<"Book"> | string
+  description?: Prisma.StringWithAggregatesFilter<"Book"> | string
+  coverImage?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
+  authorId?: Prisma.IntWithAggregatesFilter<"Book"> | number
+  publisherId?: Prisma.IntWithAggregatesFilter<"Book"> | number
 }
 
 export type BookCreateInput = {
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  authors?: Prisma.AuthorBookCreateNestedManyWithoutBookInput
+  author: Prisma.AuthorCreateNestedOneWithoutBooksInput
+  publisher: Prisma.PublisherCreateNestedOneWithoutBooksInput
+  genres?: Prisma.GenreCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateInput = {
   id?: number
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  authors?: Prisma.AuthorBookUncheckedCreateNestedManyWithoutBookInput
+  authorId: number
+  publisherId: number
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  authors?: Prisma.AuthorBookUpdateManyWithoutBookNestedInput
+  author?: Prisma.AuthorUpdateOneRequiredWithoutBooksNestedInput
+  publisher?: Prisma.PublisherUpdateOneRequiredWithoutBooksNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  authors?: Prisma.AuthorBookUncheckedUpdateManyWithoutBookNestedInput
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyInput = {
   id?: number
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authorId: number
+  publisherId: number
 }
 
 export type BookUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -320,43 +469,87 @@ export type BookUpdateManyMutationInput = {
 export type BookUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BookCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isbn?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
 }
 
 export type BookAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
 }
 
 export type BookMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isbn?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
 }
 
 export type BookMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isbn?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
 }
 
 export type BookSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   publishedYear?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  publisherId?: Prisma.SortOrder
+}
+
+export type BookListRelationFilter = {
+  every?: Prisma.BookWhereInput
+  some?: Prisma.BookWhereInput
+  none?: Prisma.BookWhereInput
+}
+
+export type BookOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type BookScalarRelationFilter = {
@@ -376,68 +569,574 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type BookCreateNestedOneWithoutAuthorsInput = {
-  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorsInput, Prisma.BookUncheckedCreateWithoutAuthorsInput>
-  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorsInput
+export type BookCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput> | Prisma.BookCreateWithoutAuthorInput[] | Prisma.BookUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorInput | Prisma.BookCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.BookCreateManyAuthorInputEnvelope
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput> | Prisma.BookCreateWithoutAuthorInput[] | Prisma.BookUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorInput | Prisma.BookCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.BookCreateManyAuthorInputEnvelope
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput> | Prisma.BookCreateWithoutAuthorInput[] | Prisma.BookUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorInput | Prisma.BookCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutAuthorInput | Prisma.BookUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.BookCreateManyAuthorInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutAuthorInput | Prisma.BookUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutAuthorInput | Prisma.BookUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput> | Prisma.BookCreateWithoutAuthorInput[] | Prisma.BookUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorInput | Prisma.BookCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutAuthorInput | Prisma.BookUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.BookCreateManyAuthorInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutAuthorInput | Prisma.BookUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutAuthorInput | Prisma.BookUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookCreateNestedManyWithoutPublisherInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput> | Prisma.BookCreateWithoutPublisherInput[] | Prisma.BookUncheckedCreateWithoutPublisherInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutPublisherInput | Prisma.BookCreateOrConnectWithoutPublisherInput[]
+  createMany?: Prisma.BookCreateManyPublisherInputEnvelope
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUncheckedCreateNestedManyWithoutPublisherInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput> | Prisma.BookCreateWithoutPublisherInput[] | Prisma.BookUncheckedCreateWithoutPublisherInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutPublisherInput | Prisma.BookCreateOrConnectWithoutPublisherInput[]
+  createMany?: Prisma.BookCreateManyPublisherInputEnvelope
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUpdateManyWithoutPublisherNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput> | Prisma.BookCreateWithoutPublisherInput[] | Prisma.BookUncheckedCreateWithoutPublisherInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutPublisherInput | Prisma.BookCreateOrConnectWithoutPublisherInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutPublisherInput | Prisma.BookUpsertWithWhereUniqueWithoutPublisherInput[]
+  createMany?: Prisma.BookCreateManyPublisherInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutPublisherInput | Prisma.BookUpdateWithWhereUniqueWithoutPublisherInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutPublisherInput | Prisma.BookUpdateManyWithWhereWithoutPublisherInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookUncheckedUpdateManyWithoutPublisherNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput> | Prisma.BookCreateWithoutPublisherInput[] | Prisma.BookUncheckedCreateWithoutPublisherInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutPublisherInput | Prisma.BookCreateOrConnectWithoutPublisherInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutPublisherInput | Prisma.BookUpsertWithWhereUniqueWithoutPublisherInput[]
+  createMany?: Prisma.BookCreateManyPublisherInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutPublisherInput | Prisma.BookUpdateWithWhereUniqueWithoutPublisherInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutPublisherInput | Prisma.BookUpdateManyWithWhereWithoutPublisherInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookCreateNestedManyWithoutGenresInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput> | Prisma.BookCreateWithoutGenresInput[] | Prisma.BookUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutGenresInput | Prisma.BookCreateOrConnectWithoutGenresInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUncheckedCreateNestedManyWithoutGenresInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput> | Prisma.BookCreateWithoutGenresInput[] | Prisma.BookUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutGenresInput | Prisma.BookCreateOrConnectWithoutGenresInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUpdateManyWithoutGenresNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput> | Prisma.BookCreateWithoutGenresInput[] | Prisma.BookUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutGenresInput | Prisma.BookCreateOrConnectWithoutGenresInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutGenresInput | Prisma.BookUpsertWithWhereUniqueWithoutGenresInput[]
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutGenresInput | Prisma.BookUpdateWithWhereUniqueWithoutGenresInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutGenresInput | Prisma.BookUpdateManyWithWhereWithoutGenresInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookUncheckedUpdateManyWithoutGenresNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput> | Prisma.BookCreateWithoutGenresInput[] | Prisma.BookUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutGenresInput | Prisma.BookCreateOrConnectWithoutGenresInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutGenresInput | Prisma.BookUpsertWithWhereUniqueWithoutGenresInput[]
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutGenresInput | Prisma.BookUpdateWithWhereUniqueWithoutGenresInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutGenresInput | Prisma.BookUpdateManyWithWhereWithoutGenresInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutReviewsInput, Prisma.BookUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutReviewsInput
   connect?: Prisma.BookWhereUniqueInput
 }
 
-export type BookUpdateOneRequiredWithoutAuthorsNestedInput = {
-  create?: Prisma.XOR<Prisma.BookCreateWithoutAuthorsInput, Prisma.BookUncheckedCreateWithoutAuthorsInput>
-  connectOrCreate?: Prisma.BookCreateOrConnectWithoutAuthorsInput
-  upsert?: Prisma.BookUpsertWithoutAuthorsInput
+export type BookUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutReviewsInput, Prisma.BookUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.BookUpsertWithoutReviewsInput
   connect?: Prisma.BookWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutAuthorsInput, Prisma.BookUpdateWithoutAuthorsInput>, Prisma.BookUncheckedUpdateWithoutAuthorsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutReviewsInput, Prisma.BookUpdateWithoutReviewsInput>, Prisma.BookUncheckedUpdateWithoutReviewsInput>
 }
 
-export type BookCreateWithoutAuthorsInput = {
+export type BookCreateWithoutAuthorInput = {
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  publisher: Prisma.PublisherCreateNestedOneWithoutBooksInput
+  genres?: Prisma.GenreCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
 }
 
-export type BookUncheckedCreateWithoutAuthorsInput = {
+export type BookUncheckedCreateWithoutAuthorInput = {
   id?: number
   title: string
+  isbn: string
   publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  publisherId: number
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
 }
 
-export type BookCreateOrConnectWithoutAuthorsInput = {
+export type BookCreateOrConnectWithoutAuthorInput = {
   where: Prisma.BookWhereUniqueInput
-  create: Prisma.XOR<Prisma.BookCreateWithoutAuthorsInput, Prisma.BookUncheckedCreateWithoutAuthorsInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput>
 }
 
-export type BookUpsertWithoutAuthorsInput = {
-  update: Prisma.XOR<Prisma.BookUpdateWithoutAuthorsInput, Prisma.BookUncheckedUpdateWithoutAuthorsInput>
-  create: Prisma.XOR<Prisma.BookCreateWithoutAuthorsInput, Prisma.BookUncheckedCreateWithoutAuthorsInput>
+export type BookCreateManyAuthorInputEnvelope = {
+  data: Prisma.BookCreateManyAuthorInput | Prisma.BookCreateManyAuthorInput[]
+  skipDuplicates?: boolean
+}
+
+export type BookUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.BookWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookUpdateWithoutAuthorInput, Prisma.BookUncheckedUpdateWithoutAuthorInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutAuthorInput, Prisma.BookUncheckedCreateWithoutAuthorInput>
+}
+
+export type BookUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.BookWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutAuthorInput, Prisma.BookUncheckedUpdateWithoutAuthorInput>
+}
+
+export type BookUpdateManyWithWhereWithoutAuthorInput = {
+  where: Prisma.BookScalarWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateManyMutationInput, Prisma.BookUncheckedUpdateManyWithoutAuthorInput>
+}
+
+export type BookScalarWhereInput = {
+  AND?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+  OR?: Prisma.BookScalarWhereInput[]
+  NOT?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+  id?: Prisma.IntFilter<"Book"> | number
+  title?: Prisma.StringFilter<"Book"> | string
+  isbn?: Prisma.StringFilter<"Book"> | string
+  publishedYear?: Prisma.IntFilter<"Book"> | number
+  pageCount?: Prisma.IntFilter<"Book"> | number
+  language?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringFilter<"Book"> | string
+  coverImage?: Prisma.StringNullableFilter<"Book"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  authorId?: Prisma.IntFilter<"Book"> | number
+  publisherId?: Prisma.IntFilter<"Book"> | number
+}
+
+export type BookCreateWithoutPublisherInput = {
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.AuthorCreateNestedOneWithoutBooksInput
+  genres?: Prisma.GenreCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutPublisherInput = {
+  id?: number
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutBooksInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutPublisherInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput>
+}
+
+export type BookCreateManyPublisherInputEnvelope = {
+  data: Prisma.BookCreateManyPublisherInput | Prisma.BookCreateManyPublisherInput[]
+  skipDuplicates?: boolean
+}
+
+export type BookUpsertWithWhereUniqueWithoutPublisherInput = {
+  where: Prisma.BookWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookUpdateWithoutPublisherInput, Prisma.BookUncheckedUpdateWithoutPublisherInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutPublisherInput, Prisma.BookUncheckedCreateWithoutPublisherInput>
+}
+
+export type BookUpdateWithWhereUniqueWithoutPublisherInput = {
+  where: Prisma.BookWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutPublisherInput, Prisma.BookUncheckedUpdateWithoutPublisherInput>
+}
+
+export type BookUpdateManyWithWhereWithoutPublisherInput = {
+  where: Prisma.BookScalarWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateManyMutationInput, Prisma.BookUncheckedUpdateManyWithoutPublisherInput>
+}
+
+export type BookCreateWithoutGenresInput = {
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.AuthorCreateNestedOneWithoutBooksInput
+  publisher: Prisma.PublisherCreateNestedOneWithoutBooksInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutGenresInput = {
+  id?: number
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  publisherId: number
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutGenresInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput>
+}
+
+export type BookUpsertWithWhereUniqueWithoutGenresInput = {
+  where: Prisma.BookWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookUpdateWithoutGenresInput, Prisma.BookUncheckedUpdateWithoutGenresInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutGenresInput, Prisma.BookUncheckedCreateWithoutGenresInput>
+}
+
+export type BookUpdateWithWhereUniqueWithoutGenresInput = {
+  where: Prisma.BookWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutGenresInput, Prisma.BookUncheckedUpdateWithoutGenresInput>
+}
+
+export type BookUpdateManyWithWhereWithoutGenresInput = {
+  where: Prisma.BookScalarWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateManyMutationInput, Prisma.BookUncheckedUpdateManyWithoutGenresInput>
+}
+
+export type BookCreateWithoutReviewsInput = {
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.AuthorCreateNestedOneWithoutBooksInput
+  publisher: Prisma.PublisherCreateNestedOneWithoutBooksInput
+  genres?: Prisma.GenreCreateNestedManyWithoutBooksInput
+}
+
+export type BookUncheckedCreateWithoutReviewsInput = {
+  id?: number
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  publisherId: number
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutBooksInput
+}
+
+export type BookCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutReviewsInput, Prisma.BookUncheckedCreateWithoutReviewsInput>
+}
+
+export type BookUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutReviewsInput, Prisma.BookUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutReviewsInput, Prisma.BookUncheckedCreateWithoutReviewsInput>
   where?: Prisma.BookWhereInput
 }
 
-export type BookUpdateToOneWithWhereWithoutAuthorsInput = {
+export type BookUpdateToOneWithWhereWithoutReviewsInput = {
   where?: Prisma.BookWhereInput
-  data: Prisma.XOR<Prisma.BookUpdateWithoutAuthorsInput, Prisma.BookUncheckedUpdateWithoutAuthorsInput>
+  data: Prisma.XOR<Prisma.BookUpdateWithoutReviewsInput, Prisma.BookUncheckedUpdateWithoutReviewsInput>
 }
 
-export type BookUpdateWithoutAuthorsInput = {
+export type BookUpdateWithoutReviewsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.AuthorUpdateOneRequiredWithoutBooksNestedInput
+  publisher?: Prisma.PublisherUpdateOneRequiredWithoutBooksNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutBooksNestedInput
 }
 
-export type BookUncheckedUpdateWithoutAuthorsInput = {
+export type BookUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
   publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutBooksNestedInput
+}
+
+export type BookCreateManyAuthorInput = {
+  id?: number
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publisherId: number
+}
+
+export type BookUpdateWithoutAuthorInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publisher?: Prisma.PublisherUpdateOneRequiredWithoutBooksNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateManyWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type BookCreateManyPublisherInput = {
+  id?: number
+  title: string
+  isbn: string
+  publishedYear: number
+  pageCount: number
+  language: string
+  description: string
+  coverImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+}
+
+export type BookUpdateWithoutPublisherInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.AuthorUpdateOneRequiredWithoutBooksNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutPublisherInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateManyWithoutPublisherInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type BookUpdateWithoutGenresInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.AuthorUpdateOneRequiredWithoutBooksNestedInput
+  publisher?: Prisma.PublisherUpdateOneRequiredWithoutBooksNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutGenresInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateManyWithoutGenresInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedYear?: Prisma.IntFieldUpdateOperationsInput | number
+  pageCount?: Prisma.IntFieldUpdateOperationsInput | number
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  publisherId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -446,11 +1145,13 @@ export type BookUncheckedUpdateWithoutAuthorsInput = {
  */
 
 export type BookCountOutputType = {
-  authors: number
+  genres: number
+  reviews: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  authors?: boolean | BookCountOutputTypeCountAuthorsArgs
+  genres?: boolean | BookCountOutputTypeCountGenresArgs
+  reviews?: boolean | BookCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -466,64 +1167,125 @@ export type BookCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * BookCountOutputType without action
  */
-export type BookCountOutputTypeCountAuthorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AuthorBookWhereInput
+export type BookCountOutputTypeCountGenresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GenreWhereInput
+}
+
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
 }
 
 
 export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  isbn?: boolean
   publishedYear?: boolean
+  pageCount?: boolean
+  language?: boolean
+  description?: boolean
+  coverImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  authors?: boolean | Prisma.Book$authorsArgs<ExtArgs>
+  authorId?: boolean
+  publisherId?: boolean
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
+  genres?: boolean | Prisma.Book$genresArgs<ExtArgs>
+  reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
 export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  isbn?: boolean
   publishedYear?: boolean
+  pageCount?: boolean
+  language?: boolean
+  description?: boolean
+  coverImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  authorId?: boolean
+  publisherId?: boolean
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
 export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  isbn?: boolean
   publishedYear?: boolean
+  pageCount?: boolean
+  language?: boolean
+  description?: boolean
+  coverImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  authorId?: boolean
+  publisherId?: boolean
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
 export type BookSelectScalar = {
   id?: boolean
   title?: boolean
+  isbn?: boolean
   publishedYear?: boolean
+  pageCount?: boolean
+  language?: boolean
+  description?: boolean
+  coverImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  authorId?: boolean
+  publisherId?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "publishedYear" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "isbn" | "publishedYear" | "pageCount" | "language" | "description" | "coverImage" | "createdAt" | "updatedAt" | "authorId" | "publisherId", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  authors?: boolean | Prisma.Book$authorsArgs<ExtArgs>
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
+  genres?: boolean | Prisma.Book$genresArgs<ExtArgs>
+  reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type BookIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
+}
+export type BookIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  author?: boolean | Prisma.AuthorDefaultArgs<ExtArgs>
+  publisher?: boolean | Prisma.PublisherDefaultArgs<ExtArgs>
+}
 
 export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Book"
   objects: {
-    authors: Prisma.$AuthorBookPayload<ExtArgs>[]
+    author: Prisma.$AuthorPayload<ExtArgs>
+    publisher: Prisma.$PublisherPayload<ExtArgs>
+    genres: Prisma.$GenrePayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
+    isbn: string
     publishedYear: number
+    pageCount: number
+    language: string
+    description: string
+    coverImage: string | null
     createdAt: Date
     updatedAt: Date
+    authorId: number
+    publisherId: number
   }, ExtArgs["result"]["book"]>
   composites: {}
 }
@@ -918,7 +1680,10 @@ readonly fields: BookFieldRefs;
  */
 export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  authors<T extends Prisma.Book$authorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$authorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthorBookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  author<T extends Prisma.AuthorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuthorDefaultArgs<ExtArgs>>): Prisma.Prisma__AuthorClient<runtime.Types.Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  publisher<T extends Prisma.PublisherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PublisherDefaultArgs<ExtArgs>>): Prisma.Prisma__PublisherClient<runtime.Types.Result.GetResult<Prisma.$PublisherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  genres<T extends Prisma.Book$genresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$genresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Book$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -950,9 +1715,16 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface BookFieldRefs {
   readonly id: Prisma.FieldRef<"Book", 'Int'>
   readonly title: Prisma.FieldRef<"Book", 'String'>
+  readonly isbn: Prisma.FieldRef<"Book", 'String'>
   readonly publishedYear: Prisma.FieldRef<"Book", 'Int'>
+  readonly pageCount: Prisma.FieldRef<"Book", 'Int'>
+  readonly language: Prisma.FieldRef<"Book", 'String'>
+  readonly description: Prisma.FieldRef<"Book", 'String'>
+  readonly coverImage: Prisma.FieldRef<"Book", 'String'>
   readonly createdAt: Prisma.FieldRef<"Book", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Book", 'DateTime'>
+  readonly authorId: Prisma.FieldRef<"Book", 'Int'>
+  readonly publisherId: Prisma.FieldRef<"Book", 'Int'>
 }
     
 
@@ -1202,6 +1974,10 @@ export type BookCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.BookCreateManyInput | Prisma.BookCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1272,6 +2048,10 @@ export type BookUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Books to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1341,27 +2121,51 @@ export type BookDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Book.authors
+ * Book.genres
  */
-export type Book$authorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Book$genresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AuthorBook
+   * Select specific fields to fetch from the Genre
    */
-  select?: Prisma.AuthorBookSelect<ExtArgs> | null
+  select?: Prisma.GenreSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AuthorBook
+   * Omit specific fields from the Genre
    */
-  omit?: Prisma.AuthorBookOmit<ExtArgs> | null
+  omit?: Prisma.GenreOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AuthorBookInclude<ExtArgs> | null
-  where?: Prisma.AuthorBookWhereInput
-  orderBy?: Prisma.AuthorBookOrderByWithRelationInput | Prisma.AuthorBookOrderByWithRelationInput[]
-  cursor?: Prisma.AuthorBookWhereUniqueInput
+  include?: Prisma.GenreInclude<ExtArgs> | null
+  where?: Prisma.GenreWhereInput
+  orderBy?: Prisma.GenreOrderByWithRelationInput | Prisma.GenreOrderByWithRelationInput[]
+  cursor?: Prisma.GenreWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AuthorBookScalarFieldEnum | Prisma.AuthorBookScalarFieldEnum[]
+  distinct?: Prisma.GenreScalarFieldEnum | Prisma.GenreScalarFieldEnum[]
+}
+
+/**
+ * Book.reviews
+ */
+export type Book$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

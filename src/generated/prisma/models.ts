@@ -10,5 +10,7 @@
  */
 export type * from './models/Book.js'
 export type * from './models/Author.js'
-export type * from './models/AuthorBook.js'
+export type * from './models/Publisher.js'
+export type * from './models/Genre.js'
+export type * from './models/Review.js'
 export type * from './commonInputTypes.js'
