@@ -2,6 +2,8 @@ import { reviews } from "../data/mock/Reviews.mock.faker.js";
 import { books } from "../data/mock/Books.mock.faker.js";
 import { Review } from "../models/review.model.js";
 import { Book } from "../models/book.model.js";
+import { ValidationError } from "../middleware/validationError.middleware.js";
+import { NotFoundError } from "../middleware/notfounderrod.moddleware.js";
 
 export class ReviewService {
     private static findReviewOrThrow(id: number): Review {
@@ -61,23 +63,34 @@ export class ReviewService {
         data: Partial<Omit<Review, "id" | "bookId" | "createdAt">>
     ): Review {
         const review = this.findReviewOrThrow(id);
-        Object.assign(review, data);
+        if (data.rating !== undefined) {
+            if (typeof data.rating !== "number" || data.rating < 1 || data.rating > 5) {
+                throw new ValidationError("Rating must be a number between 1 and 5");
+            }
+        }
+        if (data.userName !== undefined) {
+            review.userName = data.userName;
+        }
+        if (data.comment !== undefined) {
+            review.comment = data.comment;
+        }
+        if (data.rating !== undefined) {
+            review.rating = data.rating;
+        }
         return review;
     }
     static deleteReview(id: number): void {
         const index = reviews.findIndex(r => r.id === id);
         if (index === -1) {
-            throw {
-                status: 404,
-                message: "Review not found",
-                details: []
-            };
+            throw new NotFoundError("Review not found");
         }
-        reviews.splice(index, 1);
+        reviews.splice(index, 1)
     }
     static getAverageRating(bookId: number): number | null {
         const bookReviews = this.getReviewsByBookId(bookId);
-        if (bookReviews.length === 0) return null;
+        if (bookReviews.length === 0) {
+            return 0;
+        }
         const sum = bookReviews.reduce((acc, r) => acc + r.rating, 0);
         return parseFloat((sum / bookReviews.length).toFixed(2));
     }

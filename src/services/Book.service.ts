@@ -79,10 +79,25 @@ export class BookService {
         books.push(newBook);
         return newBook;
     }
-    static updateBook(id: number, data: Partial<Book>): Book {
-        const index = this.findBookIndexOrThrow(id);
-        books[index] = { ...books[index], ...data };
-        return books[index];
+    static updateBook(id: number, data: Partial<Omit<Book, "id">>): Book {
+        const book = this.getBookById(id);
+        if (data.authorId !== undefined) {
+            AuthorService.getAuthorById(data.authorId);
+        }
+        if (data.genreIds !== undefined) {
+            data.genreIds.forEach(id => GenreService.getGenreById(id));
+        }
+        if (data.publisherId !== undefined) {
+            PublisherService.getPublisherById(data.publisherId);
+        }
+        const updated: Book = {
+            ...book,
+            ...data,
+            updatedAt: new Date().toISOString()
+        };
+        const index = books.findIndex(b => b.id === id);
+        books[index] = updated;
+        return updated;
     }
     static deleteBook(id: number): void {
         const index = this.findBookIndexOrThrow(id);

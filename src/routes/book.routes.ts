@@ -70,14 +70,18 @@ const router = Router();
  *                 pagination:
  *                   type: object
  *                   properties:
- *                     page:
- *                       type: integer
- *                     limit:
- *                       type: integer
- *                     total:
+ *                     currentPage:
  *                       type: integer
  *                     totalPages:
  *                       type: integer
+ *                     totalItems:
+ *                       type: integer
+ *                     itemsPerPage:
+ *                       type: integer
+ *                     hasNextPage:
+ *                       type: boolean
+ *                     hasPreviousPage:
+ *                       type: boolean
  */
 router.get("/", BookController.getAll);
 /**
@@ -259,7 +263,7 @@ router.post("/:bookId/reviews", validate(reviewCreateSchema), ReviewController.c
  *       404:
  *         description: Book not found
  */
-router.get("/:id/average-rating", ReviewController.getAverageRating);
+router.get("/:bookId/average-rating", ReviewController.getAverageRating);
 /**
  * @openapi
  * /api/v1/books/{id}/relations:
