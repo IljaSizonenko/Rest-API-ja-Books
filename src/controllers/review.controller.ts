@@ -7,10 +7,7 @@ export class ReviewController {
         try {
             const bookId = parseId(String(req.params.bookId));
             const reviews = await ReviewService.getReviewByBookId(bookId);
-            res.status(200).json({
-                success: true,
-                data: reviews,
-            });
+            res.json(reviews);
         } catch (err) {
             next(err);
         }
@@ -25,10 +22,7 @@ export class ReviewController {
                 comment,
                 reviewer,
             });
-            res.status(201).json({
-                success: true,
-                data: review,
-            });
+            res.status(201).json(review);
         } catch (err) {
             next(err)
         }
@@ -37,10 +31,7 @@ export class ReviewController {
         try {
             const bookId = parseId(String(req.params.bookId));
             const result = await ReviewService.getAverageRating(bookId);
-            res.status(200).json({
-                success: true,
-                data: result,
-            });
+            res.json(result);
         } catch (err) {
             next(err);
         }

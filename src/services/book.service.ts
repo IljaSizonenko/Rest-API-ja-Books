@@ -1,55 +1,53 @@
 import { prisma } from "../prisma/prismaClient";
 import { NotFoundError } from "../middleware/notfounderror.middleware";
+import { prismaContains, prismaEquals } from "../utils/filter.utils";
+import { getPagination, buildPaginationMeta } from "../utils/pagination.utils";
+import { getSortOptions } from "../utils/sort.utils";
 
 export class BookService {
-    static async getAllBooks() {
-        return prisma.book.findMany({
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true,
-            },
-        });
+    static async getAllBooks(query: any) {
+        const { page, limit, skip, take } = getPagination(query.page, query.limit);
+        const where = {
+            title: prismaContains(query.title),
+            language: prismaEquals(query.language),
+            publishedYear: prismaEquals(Number(query.year)),
+            author: query.author
+                ? {
+                    OR: [
+                        { firstName: prismaContains(query.author) },
+                        { lastName: prismaContains(query.author) }
+                    ]
+                }
+                : undefined,
+            genres: query.genre
+                ? { some: { name: prismaContains(query.genre) } }
+                : undefined,
+            publisher: query.publisher
+                ? { name: prismaContains(query.publisher) }
+                : undefined
+        };
+        const orderBy = getSortOptions(query.sortBy, query.order);
+        const [totalItems, books] = await Promise.all([
+            prisma.book.count({ where }),
+            prisma.book.findMany({
+                where,
+                include: {
+                    author: true,
+                    publisher: true,
+                    genres: true,
+                    reviews: true,
+                },
+                orderBy,
+                skip,
+                take
+            })
+        ]);
+        return {
+            data: books,
+            pagination: buildPaginationMeta(totalItems, page, limit)
+        };
     }
     static async getBookById(id: number) {
-        const book = await prisma.book.findUnique({
-            where: { id },
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true, 
-            },
-        });
-        if (!book) {
-            throw new NotFoundError("Book not found");
-        }
-        return book;
-    }
-    static async getBooksByAuthor(authorId: number) {
-        return prisma.book.findMany({
-            where: { authorId },
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true, 
-            },
-        });
-    }
-    static async getBooksByPublisher(publisherId: number) {
-        return prisma.book.findMany({
-            where: { publisherId },
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true,
-            },
-        });
-    }
-    static async getBookWithRelations(id: number) {
         const book = await prisma.book.findUnique({
             where: { id },
             include: {
@@ -75,10 +73,10 @@ export class BookService {
         publisherId: number;
         genreIds: number[];
     }) {
-        await prisma.author.findUniqueOrThrow({ where: { id: data.authorId} });
-        await prisma.publisher.findUniqueOrThrow({ where: { id: data.publisherId} });
+        await prisma.author.findUniqueOrThrow({ where: { id: data.authorId } });
+        await prisma.publisher.findUniqueOrThrow({ where: { id: data.publisherId } });
         for (const gid of data.genreIds) {
-            await prisma.genre.findUniqueOrThrow({ where: {id: gid} });
+            await prisma.genre.findUniqueOrThrow({ where: { id: gid } });
         }
         return prisma.book.create({
             data: {
@@ -105,14 +103,14 @@ export class BookService {
     static async updateBook(
         id: number,
         data: Partial<{
-            title: string,
-            isbn: string,
-            publishedYear: number,
-            pageCount: number,
-            language: string,
-            description: string,
-            authorId: number,
-            publisherId: number,
+            title: string;
+            isbn: string;
+            publishedYear: number;
+            pageCount: number;
+            language: string;
+            description: string;
+            authorId: number;
+            publisherId: number;
             genreIds: number[];
         }>
     ) {
@@ -133,10 +131,8 @@ export class BookService {
             data: {
                 ...data,
                 genres: data.genreIds
-                ? {
-                    set: data.genreIds.map((gid) => ({ id: gid })),
-                }
-                : undefined,
+                    ? { set: data.genreIds.map((gid) => ({ id: gid })) }
+                    : undefined,
             },
             include: {
                 author: true,
@@ -148,9 +144,7 @@ export class BookService {
     }
     static async deleteBook(id: number) {
         await prisma.book.findUniqueOrThrow({ where: { id } });
-        await prisma.book.delete({
-            where: { id },
-        });
+        await prisma.book.delete({ where: { id } });
         return { message: "Book deleted" };
     }
 }
