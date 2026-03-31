@@ -20,15 +20,15 @@ export class ReviewService {
     static async createReview(data: {
         bookId: number;
         rating: number;
-        comment?: string;
-        reviewer: string;
+        comment: string;
+        userName: string;
     }) {
         await this.ensureBookExists(data.bookId);
         return prisma.review.create({
             data: {
                 rating: data.rating,
                 comment: data.comment,
-                reviewer: data.reviewer,
+                userName: data.userName,
                 bookId: data.bookId,
             },
             include: {

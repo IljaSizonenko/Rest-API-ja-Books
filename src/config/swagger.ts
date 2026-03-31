@@ -80,7 +80,7 @@ const swaggerOptions = {
           properties: {
             id: { type: "integer" },
             bookId: { type: "integer" },
-            reviewer: { type: "string" },
+            userName: { type: "string" },
             rating: { type: "integer", minimum: 1, maximum: 5 },
             comment: { type: "string" },
             createdAt: { type: "string", format: "date-time" }
@@ -89,11 +89,11 @@ const swaggerOptions = {
         ReviewCreate: {
           type: "object",
           properties: {
-            reviewer: { type: "string" },
+            userName: { type: "string" },
             rating: { type: "integer", minimum: 1, maximum: 5 },
             comment: { type: "string" }
           },
-          required: ["reviewer", "rating", "comment"]
+          required: ["userName", "rating", "comment"]
         },
         Pagination: {
           type: "object",

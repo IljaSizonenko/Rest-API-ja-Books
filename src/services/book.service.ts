@@ -68,7 +68,7 @@ export class BookService {
         publishedYear: number;
         pageCount: number;
         language: string;
-        description?: string;
+        description: string;
         authorId: number;
         publisherId: number;
         genreIds: number[];
@@ -85,11 +85,11 @@ export class BookService {
                 publishedYear: data.publishedYear,
                 pageCount: data.pageCount,
                 language: data.language,
-                description: data.description,
-                authorId: data.authorId,
-                publisherId: data.publisherId,
+                description: data.description ?? null,
+                author: { connect: { id: data.authorId } },
+                publisher: { connect: { id: data.publisherId } },
                 genres: {
-                    connect: data.genreIds.map((id) => ({ id })),
+                connect: data.genreIds.map((id) => ({ id })),
                 },
             },
             include: {

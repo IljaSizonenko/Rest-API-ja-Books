@@ -15,12 +15,12 @@ export class ReviewController {
     static async createReview(req: Request, res: Response, next: NextFunction) {
         try {
             const bookId = parseId(String(req.params.bookId));
-            const { rating, comment, reviewer } = req.body;
+            const { rating, comment, userName } = req.body;
             const review = await ReviewService.createReview({
                 bookId,
                 rating,
                 comment,
-                reviewer,
+                userName,
             });
             res.status(201).json(review);
         } catch (err) {
