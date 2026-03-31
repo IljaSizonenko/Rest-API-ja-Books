@@ -1,9 +1,7 @@
 import { Router } from "express";
-import { BookController } from "../controllers/book.controller.js";
-import { ReviewController } from "../controllers/review.controller.js";
-import { validate } from "../middleware/validate.middleware.js";
-import { bookCreateSchema, bookUpdateSchema } from "../validators/book.validators.js";
-import { reviewCreateSchema } from "../validators/review.validators.js";
+import { BookController } from "../controllers/book.controller";
+import { validate } from "../middleware/validate.middleware";
+import { bookCreateSchema, bookUpdateSchema } from "../validators/book.validators";
 
 const router = Router();
 /**
@@ -83,7 +81,7 @@ const router = Router();
  *                     hasPreviousPage:
  *                       type: boolean
  */
-router.get("/", BookController.getAll);
+router.get("/", BookController.getAllBooks);
 /**
  * @openapi
  * /api/v1/books/{id}:
@@ -107,7 +105,7 @@ router.get("/", BookController.getAll);
  *       404:
  *         description: Book not found
  */
-router.get("/:id", BookController.getById);
+router.get("/:id", BookController.getBookById);
 /**
  * @openapi
  * /api/v1/books:
@@ -131,7 +129,7 @@ router.get("/:id", BookController.getById);
  *       400:
  *         description: Validation error
  */
-router.post("/", validate(bookCreateSchema), BookController.create);
+router.post("/", validate(bookCreateSchema), BookController.createBook);
 /**
  * @openapi
  * /api/v1/books/{id}:
@@ -161,7 +159,7 @@ router.post("/", validate(bookCreateSchema), BookController.create);
  *       404:
  *         description: Book not found
  */
-router.put("/:id", validate(bookUpdateSchema), BookController.update);
+router.put("/:id", validate(bookUpdateSchema), BookController.updateBook);
 /**
  * @openapi
  * /api/v1/books/{id}:
@@ -181,151 +179,5 @@ router.put("/:id", validate(bookUpdateSchema), BookController.update);
  *       404:
  *         description: Book not found
  */
-router.delete("/:id", BookController.delete);
-/**
- * @openapi
- * /api/v1/books/{bookId}/reviews:
- *   get:
- *     summary: Get all reviews for a book
- *     tags:
- *       - Reviews
- *     parameters:
- *       - in: path
- *         name: bookId
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: List of reviews for the book
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Review'
- *       404:
- *         description: Book not found
- */
-router.get("/:bookId/reviews", ReviewController.getByBook);
-/**
- * @openapi
- * /api/v1/books/{bookId}/reviews:
- *   post:
- *     summary: Create a review for a book
- *     tags:
- *       - Reviews
- *     parameters:
- *       - in: path
- *         name: bookId
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Review'
- *     responses:
- *       201:
- *         description: Review created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Review'
- *       400:
- *         description: Validation error
- *       404:
- *         description: Book not found
- */
-router.post("/:bookId/reviews", validate(reviewCreateSchema), ReviewController.create);
-/**
- * @openapi
- * /api/v1/books/{id}/average-rating:
- *   get:
- *     summary: Get average rating for a book
- *     tags:
- *       - Reviews
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Average rating calculated
- *         content:
- *           application/json:
- *             schema:
- *               type: number
- *       404:
- *         description: Book not found
- */
-router.get("/:bookId/average-rating", ReviewController.getAverageRating);
-/**
- * @openapi
- * /api/v1/books/{id}/relations:
- *   get:
- *     summary: Get a book with all related entities
- *     tags:
- *       - Books
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: Book ID
- *     responses:
- *       200:
- *         description: Book with related author, genres, publisher and reviews
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 title:
- *                   type: string
- *                 isbn:
- *                   type: string
- *                 publishedYear:
- *                   type: integer
- *                 pageCount:
- *                   type: integer
- *                 language:
- *                   type: string
- *                 description:
- *                   type: string
- *                 coverImage:
- *                   type: string
- *                 authorId:
- *                   type: integer
- *                 publisherId:
- *                   type: integer
- *                 genreIds:
- *                   type: array
- *                   items:
- *                     type: integer
- *                 authors:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Author'
- *                 genres:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Genre'
- *                 publisher:
- *                   $ref: '#/components/schemas/Publisher'
- *                 reviews:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Review'
- *       404:
- *         description: Book not found
- */
-router.get("/:id/relations", BookController.getWithRelations);
+router.delete("/:id", BookController.deleteBook);
 export default router

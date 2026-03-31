@@ -1,12 +1,16 @@
 import express from "express";
 import cors from "cors";
-import { json } from "body-parser";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import bookRoutes from "./routes/book.routes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+import reviewRoutes from "./routes/review.routes.js"
 
 const app = express();
 app.use(cors());
-app.use(json());
-app.use("/api/books", bookRoutes)
+app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/v1/books", bookRoutes);
+app.use("/api/v1/books/:bookId/reviews", reviewRoutes);
 app.use(errorMiddleware);
 export default app;
