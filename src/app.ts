@@ -9,6 +9,7 @@ import reviewRoutes from "./routes/review.routes.js"
 const app = express();
 app.use(cors());
 app.use(express.json());
+/* Dokumentatsioon asub lingis http://localhost:3000/api-docs/ */
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/books/:bookId/reviews", reviewRoutes);
 app.use("/api/v1/books", bookRoutes);
