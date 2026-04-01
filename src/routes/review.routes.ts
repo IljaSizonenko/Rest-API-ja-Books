@@ -1,81 +1,89 @@
 import { Router } from "express";
 import { ReviewController } from "../controllers/review.controller.js";
 import { validate } from "../middleware/validate.middleware.js";
-import { reviewUpdateSchema } from "../validators/review.validators.js";
+import { reviewCreateSchema } from "../validators/review.validators.js";
 
 const router = Router();
 /**
  * @openapi
- * /api/v1/reviews/{id}:
+ * /api/v1/books/{bookId}/reviews:
  *   get:
- *     summary: Get review by ID
- *     tags:
- *       - Reviews
+ *     summary: Get all reviews for a book
+ *     tags: [Reviews]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookId
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID of the book
  *     responses:
  *       200:
- *         description: Review found
+ *         description: List of reviews for the book
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Review'
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Review'
  *       404:
- *         description: Review not found
+ *         description: Book not found
  */
-router.get("/:id", ReviewController.getById);
+router.get("/:bookId/reviews", ReviewController.getByBook);
 /**
  * @openapi
- * /api/v1/reviews/{id}:
- *   put:
- *     summary: Update a review
- *     tags:
- *       - Reviews
+ * /api/v1/books/{bookId}/reviews:
+ *   post:
+ *     summary: Create a review for a book
+ *     tags: [Reviews]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookId
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID of the book
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Review'
+ *             $ref: '#/components/schemas/ReviewCreate'
  *     responses:
- *       200:
- *         description: Review updated
+ *       201:
+ *         description: Review created
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Review'
+ *       400:
+ *         description: Validation error or Bad request (invalid JSON or invalid fields)
  *       404:
- *         description: Review not found
+ *         description: Book not found
  */
-router.put("/:id", validate(reviewUpdateSchema), ReviewController.update);
+router.post("/:bookId/reviews", validate(reviewCreateSchema), ReviewController.create);
 /**
  * @openapi
- * /api/v1/reviews/{id}:
- *   delete:
- *     summary: Delete a review
- *     tags:
- *       - Reviews
+ * /api/v1/books/{bookId}/average-rating:
+ *   get:
+ *     summary: Get average rating for a book
+ *     tags: [Reviews]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookId
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID of the book
  *     responses:
- *       204:
- *         description: Review deleted
+ *       200:
+ *         description: Average rating value
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: number
  *       404:
- *         description: Review not found
+ *         description: Book not found
  */
-router.delete("/:id", ReviewController.delete);
+router.get("/:bookId/average-rating", ReviewController.getAverageRating);
 export default router

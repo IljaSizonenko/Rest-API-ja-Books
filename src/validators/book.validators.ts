@@ -8,7 +8,6 @@ export const bookCreateSchema = z.object({
     description: z.string().min(1, "Description is required"),
     coverImage: z.string().url("Cover image must be a valid URL").optional(),
     authorId: z.number().int("Author ID must be a number"),
-    publisherId: z.number().int("Publisher ID must be a number"),
     genreIds: z.array(z.number().int()).min(1, "At least one genre is required")
 });
 export const bookUpdateSchema = bookCreateSchema.partial()

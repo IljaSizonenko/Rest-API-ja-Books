@@ -6,7 +6,7 @@ const swaggerOptions = {
     info: {
       title: "Book API Mock",
       version: "1.0.0",
-      description: "API documentation for Book API with Mock data",
+      description: "API documentation for Book API with in-memory mock data",
     },
     servers: [
       {
@@ -25,50 +25,59 @@ const swaggerOptions = {
             pageCount: { type: "integer" },
             language: { type: "string" },
             description: { type: "string" },
-            coverImage: { type: "string" },
+            coverImage: { type: "string", nullable: true },
             authorId: { type: "integer" },
-            publisherId: { type: "integer" },
             genreIds: {
               type: "array",
               items: { type: "integer" }
             },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" }
-          },
-          required: ["title", "isbn", "publishedYear", "authorId", "publisherId"],
+          }
         },
-        Author: {
+        BookCreate: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            firstName: { type: "string" },
-            lastName: { type: "string" },
-            birthYear: { type: "integer" },
-            nationality: { type: "string" },
-            biography: { type: "string" },
-            createdAt: { type: "string", format: "date-time" }
+            title: { type: "string" },
+            isbn: { type: "string" },
+            publishedYear: { type: "integer" },
+            pageCount: { type: "integer" },
+            language: { type: "string" },
+            description: { type: "string" },
+            coverImage: { type: "string", nullable: true },
+            authorId: { type: "integer" },
+            genreIds: {
+              type: "array",
+              items: { type: "integer" }
+            }
           },
-          required: ["firstName", "lastName", "birthYear", "nationality"]
+          required: [
+            "title",
+            "isbn",
+            "publishedYear",
+            "pageCount",
+            "language",
+            "description",
+            "authorId",
+            "genreIds"
+          ]
         },
-        Genre: {
+        BookUpdate: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" }
-          },
-          required: ["name"]
-        },
-        Publisher: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            country: { type: "string" },
-            foundedYear: { type: "integer" },
-            website: { type: "string" },
-            createdAt: { type: "string", format: "date-time" }
-          },
-          required: ["name", "country", "foundedYear"]
+            title: { type: "string" },
+            isbn: { type: "string" },
+            publishedYear: { type: "integer" },
+            pageCount: { type: "integer" },
+            language: { type: "string" },
+            description: { type: "string" },
+            coverImage: { type: "string" },
+            authorId: { type: "integer" },
+            genreIds: {
+              type: "array",
+              items: { type: "integer" }
+            }
+          }
         },
         Review: {
           type: "object",
@@ -79,11 +88,35 @@ const swaggerOptions = {
             rating: { type: "integer", minimum: 1, maximum: 5 },
             comment: { type: "string" },
             createdAt: { type: "string", format: "date-time" }
+          }
+        },
+        ReviewCreate: {
+          type: "object",
+          properties: {
+            userName: { type: "string" },
+            rating: { type: "integer", minimum: 1, maximum: 5 },
+            comment: { type: "string" }
           },
-          required: ["bookId", "userName", "rating"]
+          required: ["userName", "rating"]
+        },
+        ErrorResponse: {
+          type: "object",
+          properties: {
+            error: { type: "string" },
+            details: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  field: { type: "string" },
+                  message: { type: "string" }
+                }
+              }
+            }
+          }
         }
-      },
-    },
+      }
+    }
   },
   apis: ["./src/routes/*.ts"],
 };
