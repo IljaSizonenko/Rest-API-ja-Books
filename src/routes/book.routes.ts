@@ -149,7 +149,7 @@ router.put("/:id", validate(bookUpdateSchema), BookController.updateBook);
  *         schema:
  *           type: integer
  *     responses:
- *       200:
+ *       204:
  *         description: Book deleted
  *         content:
  *           application/json:

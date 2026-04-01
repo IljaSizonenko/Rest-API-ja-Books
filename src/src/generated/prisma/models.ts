@@ -8,9 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Book.js'
-export type * from './models/Author.js'
-export type * from './models/Publisher.js'
-export type * from './models/Genre.js'
-export type * from './models/Review.js'
-export type * from './commonInputTypes.js'
+export type * from './models/Book'
+export type * from './models/Author'
+export type * from './models/Publisher'
+export type * from './models/Genre'
+export type * from './models/Review'
+export type * from './commonInputTypes'

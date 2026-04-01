@@ -11,7 +11,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "log-books": "tsx src/scripts/log-all-books.ts",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx src/prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

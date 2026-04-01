@@ -52,41 +52,6 @@ export class ReviewService {
             });
         });
     }
-    static async updateReview(
-        id: number,
-        data: Partial<{
-            rating: number;
-            comment: string;
-            userName: string;
-        }>
-    ) {
-        return prisma.$transaction(async (tx) => {
-            const review = await tx.review.findUnique({ where: { id } });
-            if (!review) {
-                throw new NotFoundError("Review not found");
-            }
-            if (data.rating !== undefined && (data.rating < 1 || data.rating > 5)) {
-                throw new Error("Rating must be between 1 and 5");
-            }
-            return tx.review.update({
-                where: { id },
-                data,
-                include: { book: true },
-            });
-        });
-    }
-    static async deleteReview(id: number) {
-        return prisma.$transaction(async (tx) => {
-            const review = await tx.review.findUnique({ where: { id } });
-            if (!review) {
-                throw new NotFoundError("Review not found");
-            }
-
-            await tx.review.delete({ where: { id } });
-
-            return { message: "Review deleted" };
-        });
-    }
     static async getAverageRating(bookId: number) {
         await this.ensureBookExists(bookId);
         const result = await prisma.review.aggregate({
