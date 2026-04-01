@@ -44,8 +44,8 @@ export class BookController {
     static async deleteBook(req: Request, res: Response, next: NextFunction) {
         try {
             const id = parseId(String(req.params.id));
-            const result = await BookService.deleteBook(id);
-            res.json(success(result));
+            await BookService.deleteBook(id);
+            return res.status(204).send();
         } catch (error) {
             next(error);
         }

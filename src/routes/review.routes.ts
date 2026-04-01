@@ -56,6 +56,8 @@ router.get("/", ReviewController.getReviewsByBookId);
  *         description: Validation error
  *       404:
  *         description: Book not found
+ *       500:
+ *         description: Invalid JSON or server error
  */
 router.post("/", validate(reviewCreateSchema), ReviewController.createReview);
 /**

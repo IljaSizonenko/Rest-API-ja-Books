@@ -184,7 +184,72 @@ async function main() {
         pageCount: 395,
         language: "English",
         description: "Elements of reusable object-oriented software.",
-        authorId: erichGamma.id, // основной автор
+        authorId: erichGamma.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Web-Programming",
+        isbn: "97802016376",
+        publishedYear: 2023,
+        pageCount: 342,
+        language: "Estonian",
+        description: "Basics of web-development",
+        authorId: richardHelm.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Network application",
+        isbn: "2345234555",
+        publishedYear: 2024,
+        pageCount: 464,
+        language: "Estonian",
+        description: "How works a network",
+        authorId: ralphJohnson.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Data analysis",
+        isbn: "5347856657",
+        publishedYear: 2019,
+        pageCount: 231,
+        language: "French",
+        description: "basics of data analysis",
+        authorId: johnVlissides.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "PLC programming",
+        isbn: "2375975823",
+        publishedYear: 2022,
+        pageCount: 191,
+        language: "English",
+        description: "Siemens PLC programming",
+        authorId: kentBeck.id,
+        publisherId: addisonWesley.id,
+        genres: { connect: [{ id: patterns.id }] },
+      },
+    }),
+    prisma.book.create({
+      data: {
+        title: "Systems of database",
+        isbn: "4985276759",
+        publishedYear: 2021,
+        pageCount: 431,
+        language: "French",
+        description: "SQL programming",
+        authorId: joshuaBloch.id,
         publisherId: addisonWesley.id,
         genres: { connect: [{ id: patterns.id }] },
       },
@@ -197,7 +262,6 @@ async function main() {
     cleanArch, 
     designPatternsBook] =
     books;
- 
   await prisma.review.createMany({
     data: [
       {
@@ -207,16 +271,28 @@ async function main() {
         comment: "Must-read for every developer.",
       },
       {
-        bookId: cleanCode.id,
+        bookId: pragmatic.id,
         userName: "Bob",
         rating: 4,
         comment: "Great book, but dense in places.",
       },
       {
-        bookId: designPatternsBook.id,
+        bookId: refactoring.id,
         userName: "Charlie",
         rating: 5,
         comment: "Classic. Still relevant today.",
+      },
+      {
+        bookId: cleanArch.id,
+        userName: "John",
+        rating: 3,
+        comment: "Very difficult for beginners",
+      },
+      {
+        bookId: designPatternsBook.id,
+        userName: "Stella",
+        rating: 4,
+        comment: "Great book, but there are some inconsistencies",
       },
     ],
   });

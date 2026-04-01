@@ -104,7 +104,16 @@ router.get("/:id", BookController.getBookById);
  *             schema:
  *               $ref: '#/components/schemas/SuccessResponse'
  *       400:
- *         description: Validation error
+ *         description: Validation error (Zod or Prisma)
+ *       404:
+ *         description: Related entity not found (Author, Publisher, or Genre)
+ *         content:
+ *           application/json:
+ *              example:
+ *               success: false
+ *               error: "Record not found"
+ *               details:
+ *                 cause "No Author found" 
  */
 router.post("/", validate(bookCreateSchema), BookController.createBook);
 /**

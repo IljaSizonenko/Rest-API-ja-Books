@@ -1,6 +1,6 @@
-import { Prisma } from "../src/generated/prisma/client";
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
+import { NotFoundError } from "./notfounderror.middleware";
 
 export function errorMiddleware(
   err: any,
@@ -16,42 +16,34 @@ export function errorMiddleware(
       details: err.issues,
     });
   }
-  if (err.status === 404 || err.statusCode === 404) {
+  if (err instanceof NotFoundError) {
     return res.status(404).json({
       success: false,
-      error: err.message || "Not found",
+      error: err.message,
     });
   }
-  if (err instanceof Prisma.PrismaClientKnownRequestError) {
-    if (err.code === "P2025") {
-      return res.status(404).json({
-        success: false,
-        error: "Record not found",
-        details: err.meta,
-      });
-    }
-    if (err.code === "P2002") {
-      return res.status(400).json({
-        success: false,
-        error: "Unique constraint failed",
-        details: err.meta,
-      });
-    }
-    if (err.code === "P2003") {
-      return res.status(400).json({
-        success: false,
-        error: "Foreign key constraint failed",
-        details: err.meta,
-      });
-    }
-    return res.status(400).json({
+  if (err.code === "P2025") {
+    return res.status(404).json({
       success: false,
-      error: "Database error",
-      code: err.code,
+      error: err.meta?.cause || "Record not found",
       details: err.meta,
     });
   }
-  if (err instanceof Prisma.PrismaClientValidationError) {
+  if (err.code === "P2002") {
+    return res.status(400).json({
+      success: false,
+      error: "Unique constraint failed",
+      details: err.meta,
+    });
+  }
+  if (err.code === "P2003") {
+    return res.status(400).json({
+      success: false,
+      error: "Foreign key constraint failed",
+      details: err.meta,
+    });
+  }
+  if (err.code === "P2012" || err.code === "P2011") {
     return res.status(400).json({
       success: false,
       error: "Prisma validation error",
