@@ -5,7 +5,7 @@ import { bookCreateSchema, bookUpdateSchema } from "../validators/book.validator
 
 const router = Router();
 /**
- * @swagger
+ * @openapi
  * /api/v1/books:
  *   get:
  *     summary: Get all books with filtering, sorting and pagination
@@ -22,64 +22,43 @@ const router = Router();
  *           type: string
  *         description: Filter by author full name (partial match)
  *       - in: query
+ *         name: genre
+ *         schema:
+ *           type: string
+ *         description: Filter by genre name
+ *       - in: query
  *         name: language
  *         schema:
  *           type: string
- *         description: Filter by language (exact match)
  *       - in: query
- *         name: publishedYear
+ *         name: year
  *         schema:
  *           type: integer
- *         description: Filter by published year (exact match)
  *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
  *           enum: [title, publishedYear, language]
- *         description: Sort field
  *       - in: query
  *         name: order
  *         schema:
  *           type: string
  *           enum: [asc, desc]
- *         description: Sort direction
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
- *         description: Page number (default 1)
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
- *         description: Items per page (default 10)
  *     responses:
  *       200:
  *         description: List of books with pagination
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Book'
- *                 pagination:
- *                   type: object
- *                   properties:
- *                     currentPage:
- *                       type: integer
- *                     totalPages:
- *                       type: integer
- *                     totalItems:
- *                       type: integer
- *                     itemsPerPage:
- *                       type: integer
- *                     hasNextPage:
- *                       type: boolean
- *                     hasPreviousPage:
- *                       type: boolean
+ *               $ref: '#/components/schemas/SuccessResponse'
  */
 router.get("/", BookController.getAllBooks);
 /**
@@ -87,8 +66,7 @@ router.get("/", BookController.getAllBooks);
  * /api/v1/books/{id}:
  *   get:
  *     summary: Get book by ID
- *     tags:
- *       - Books
+ *     tags: [Books]
  *     parameters:
  *       - in: path
  *         name: id
@@ -101,7 +79,7 @@ router.get("/", BookController.getAllBooks);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Book'
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       404:
  *         description: Book not found
  */
@@ -111,21 +89,20 @@ router.get("/:id", BookController.getBookById);
  * /api/v1/books:
  *   post:
  *     summary: Create a new book
- *     tags:
- *       - Books
+ *     tags: [Books]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Book'
+ *             $ref: '#/components/schemas/BookCreateDto'
  *     responses:
  *       201:
  *         description: Book created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Book'
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       400:
  *         description: Validation error
  */
@@ -135,8 +112,7 @@ router.post("/", validate(bookCreateSchema), BookController.createBook);
  * /api/v1/books/{id}:
  *   put:
  *     summary: Update a book
- *     tags:
- *       - Books
+ *     tags: [Books]
  *     parameters:
  *       - in: path
  *         name: id
@@ -148,14 +124,14 @@ router.post("/", validate(bookCreateSchema), BookController.createBook);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Book'
+ *             $ref: '#/components/schemas/BookUpdateDto'
  *     responses:
  *       200:
  *         description: Book updated
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Book'
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       404:
  *         description: Book not found
  */
@@ -165,8 +141,7 @@ router.put("/:id", validate(bookUpdateSchema), BookController.updateBook);
  * /api/v1/books/{id}:
  *   delete:
  *     summary: Delete a book
- *     tags:
- *       - Books
+ *     tags: [Books]
  *     parameters:
  *       - in: path
  *         name: id
@@ -174,8 +149,12 @@ router.put("/:id", validate(bookUpdateSchema), BookController.updateBook);
  *         schema:
  *           type: integer
  *     responses:
- *       204:
+ *       200:
  *         description: Book deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       404:
  *         description: Book not found
  */

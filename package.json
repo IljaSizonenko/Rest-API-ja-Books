@@ -2,7 +2,7 @@
   "name": "books-api-prisma",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
@@ -30,6 +30,8 @@
     "@prisma/client": "^7.4.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "swagger-jsdoc": "6.2.8",
+    "swagger-ui-express": "5.0.1"
   }
 }

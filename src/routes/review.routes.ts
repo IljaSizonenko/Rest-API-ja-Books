@@ -5,7 +5,7 @@ import { reviewCreateSchema } from "../validators/review.validators";
 
 const router = Router({ mergeParams: true });
 /**
- * @swagger
+ * @openapi
  * /api/v1/books/{bookId}/reviews:
  *   get:
  *     summary: Get all reviews for a book
@@ -22,15 +22,13 @@ const router = Router({ mergeParams: true });
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Review'
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       404:
  *         description: Book not found
  */
 router.get("/", ReviewController.getReviewsByBookId);
 /**
- * @swagger
+ * @openapi
  * /api/v1/books/{bookId}/reviews:
  *   post:
  *     summary: Create a review for a book
@@ -46,14 +44,14 @@ router.get("/", ReviewController.getReviewsByBookId);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ReviewCreate'
+ *             $ref: '#/components/schemas/ReviewCreateDto'
  *     responses:
  *       201:
  *         description: Review created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Review'
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       400:
  *         description: Validation error
  *       404:
@@ -61,7 +59,7 @@ router.get("/", ReviewController.getReviewsByBookId);
  */
 router.post("/", validate(reviewCreateSchema), ReviewController.createReview);
 /**
- * @swagger
+ * @openapi
  * /api/v1/books/{bookId}/reviews/average:
  *   get:
  *     summary: Get average rating for a book
@@ -78,12 +76,7 @@ router.post("/", validate(reviewCreateSchema), ReviewController.createReview);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 bookId:
- *                   type: integer
- *                 averageRating:
- *                   type: number
+ *               $ref: '#/components/schemas/SuccessResponse'
  *       404:
  *         description: Book not found
  */

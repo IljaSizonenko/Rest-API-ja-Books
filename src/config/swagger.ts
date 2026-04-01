@@ -24,21 +24,38 @@ const swaggerOptions = {
             publishedYear: { type: "integer" },
             pageCount: { type: "integer" },
             language: { type: "string" },
-            description: { type: "string", nullable: true },
+            description: { type: "string" },
             coverImage: { type: "string", nullable: true },
             authorId: { type: "integer" },
             publisherId: { type: "integer" },
-            genreIds: {
+            genres: {
               type: "array",
-              items: { type: "integer" },
-              nullable: true
+              items: { $ref: "#/components/schemas/Genre" }
             },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" }
           }
         },
-        BookCreate: {
+        Genre: {
           type: "object",
+          properties: {
+            id: { type: "integer" },
+            name: { type: "string" }
+          }
+        },
+        BookCreateDto: {
+          type: "object",
+          required: [
+            "title",
+            "isbn",
+            "publishedYear",
+            "pageCount",
+            "language",
+            "description",
+            "authorId",
+            "publisherId",
+            "genreIds"
+          ],
           properties: {
             title: { type: "string" },
             isbn: { type: "string" },
@@ -46,17 +63,16 @@ const swaggerOptions = {
             pageCount: { type: "integer" },
             language: { type: "string" },
             description: { type: "string" },
-            coverImage: { type: "string" },
+            coverImage: { type: "string", nullable: true },
             authorId: { type: "integer" },
             publisherId: { type: "integer" },
             genreIds: {
               type: "array",
               items: { type: "integer" }
             }
-          },
-          required: ["title", "isbn", "publishedYear", "pageCount", "language", "authorId", "publisherId"]
+          }
         },
-        BookUpdate: {
+        BookUpdateDto: {
           type: "object",
           description: "Partial update of a book",
           properties: {
@@ -86,14 +102,14 @@ const swaggerOptions = {
             createdAt: { type: "string", format: "date-time" }
           }
         },
-        ReviewCreate: {
+        ReviewCreateDto: {
           type: "object",
+          required: ["userName", "rating", "comment"],
           properties: {
             userName: { type: "string" },
             rating: { type: "integer", minimum: 1, maximum: 5 },
             comment: { type: "string" }
-          },
-          required: ["userName", "rating", "comment"]
+          }
         },
         Pagination: {
           type: "object",
@@ -104,6 +120,14 @@ const swaggerOptions = {
             itemsPerPage: { type: "integer" },
             hasNextPage: { type: "boolean" },
             hasPreviousPage: { type: "boolean" }
+          }
+        },
+        SuccessResponse: {
+          type: "object",
+          properties: {
+            success: { type: "boolean" },
+            data: { type: "object" },
+            meta: { type: "object", nullable: true }
           }
         }
       }
