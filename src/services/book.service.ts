@@ -73,31 +73,33 @@ export class BookService {
         publisherId: number;
         genreIds: number[];
     }) {
-        await prisma.author.findUniqueOrThrow({ where: { id: data.authorId } });
-        await prisma.publisher.findUniqueOrThrow({ where: { id: data.publisherId } });
-        for (const gid of data.genreIds) {
-            await prisma.genre.findUniqueOrThrow({ where: { id: gid } });
-        }
-        return prisma.book.create({
-            data: {
-                title: data.title,
-                isbn: data.isbn,
-                publishedYear: data.publishedYear,
-                pageCount: data.pageCount,
-                language: data.language,
-                description: data.description ?? null,
-                author: { connect: { id: data.authorId } },
-                publisher: { connect: { id: data.publisherId } },
-                genres: {
-                connect: data.genreIds.map((id) => ({ id })),
+        return prisma.$transaction(async (tx) => {
+            await tx.author.findUniqueOrThrow({ where: { id: data.authorId } });
+            await tx.publisher.findUniqueOrThrow({ where: { id: data.publisherId } });
+            for (const gid of data.genreIds) {
+                await tx.genre.findUniqueOrThrow({ where: { id: gid } });
+            }
+            return tx.book.create({
+                data: {
+                    title: data.title,
+                    isbn: data.isbn,
+                    publishedYear: data.publishedYear,
+                    pageCount: data.pageCount,
+                    language: data.language,
+                    description: data.description,
+                    author: { connect: { id: data.authorId } },
+                    publisher: { connect: { id: data.publisherId}},
+                    genres: {
+                        connect: data.genreIds.map((id) => ({ id })),
+                    },
                 },
-            },
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true,
-            },
+                include: {
+                    author: true,
+                    publisher: true,
+                    genres: true,
+                    reviews: true,
+                },
+            });
         });
     }
     static async updateBook(
@@ -114,37 +116,42 @@ export class BookService {
             genreIds: number[];
         }>
     ) {
-        await prisma.book.findUniqueOrThrow({ where: { id } });
-        if (data.authorId !== undefined) {
-            await prisma.author.findUniqueOrThrow({ where: { id: data.authorId } });
-        }
-        if (data.publisherId !== undefined) {
-            await prisma.publisher.findUniqueOrThrow({ where: { id: data.publisherId } });
-        }
-        if (data.genreIds !== undefined) {
-            for (const gid of data.genreIds) {
-                await prisma.genre.findUniqueOrThrow({ where: { id: gid } });
+        return prisma.$transaction(async (tx) => {
+            await tx.book.findUniqueOrThrow({ where: { id } });
+            if (data.authorId !== undefined) {
+                await tx.author.findUniqueOrThrow({ where: { id: data.authorId } });
             }
-        }
-        return prisma.book.update({
-            where: { id },
-            data: {
-                ...data,
-                genres: data.genreIds
-                    ? { set: data.genreIds.map((gid) => ({ id: gid })) }
-                    : undefined,
-            },
-            include: {
-                author: true,
-                publisher: true,
-                genres: true,
-                reviews: true,
-            },
+            if (data.publisherId !== undefined) {
+                await tx.publisher.findUniqueOrThrow({ where: { id: data.publisherId } });
+            }
+            if (data.genreIds !== undefined) {
+                for (const gid of data.genreIds) {
+                    await tx.genre.findUniqueOrThrow({ where: { id: gid } });
+                }
+            }
+            const { genreIds, ...rest } = data;
+            return tx.book.update({
+                where: { id },
+                data: {
+                    ...rest,
+                    genres: genreIds
+                        ? { set: genreIds.map((gid) => ({ id: gid })) }
+                        : undefined,
+                },
+                include: {
+                    author: true,
+                    publisher: true,
+                    genres: true,
+                    reviews: true,
+                },
+            });
         });
     }
     static async deleteBook(id: number) {
-        await prisma.book.findUniqueOrThrow({ where: { id } });
-        await prisma.book.delete({ where: { id } });
-        return { message: "Book deleted" };
+        return prisma.$transaction(async (tx) => {
+            await tx.book.findUniqueOrThrow({ where: { id } });
+            await tx.book.delete({ where: { id } });
+            return { message: "Book deleted" };
+        });
     }
 }

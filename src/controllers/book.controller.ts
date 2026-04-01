@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { BookService } from "../services/book.service";
 import { parseId } from "../utils/parseId.utils";
-
+import { success } from "../utils/response.utils";
+import { bookCreateSchema, bookUpdateSchema, bookQuerySchema } from "../validators/book.validators";
 export class BookController {
     static async getAllBooks(req: Request, res: Response, next: NextFunction) {
         try {
-            const result = await BookService.getAllBooks(req.query);
-            res.json(result);
+            const query = bookQuerySchema.parse(req.query);
+            const result = await BookService.getAllBooks(query);
+            res.json(success(result.data, result.pagination));
         } catch (error) {
             next(error);
         }
@@ -15,15 +17,16 @@ export class BookController {
         try {
             const id = parseId(String(req.params.id));
             const book = await BookService.getBookById(id);
-            res.json(book);
+            res.json(success(book));
         } catch (error) {
             next(error);
         }
     }
     static async createBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const book = await BookService.createBook(req.body);
-            res.status(201).json(book);
+            const body = bookCreateSchema.parse(req.body);
+            const book = await BookService.createBook(body);
+            res.status(201).json(success(book));
         } catch (error) {
             next(error);
         }
@@ -31,8 +34,9 @@ export class BookController {
     static async updateBook(req: Request, res: Response, next: NextFunction) {
         try {
             const id = parseId(String(req.params.id));
-            const updated = await BookService.updateBook(id, req.body);
-            res.json(updated);
+            const body = bookUpdateSchema.parse(req.body);
+            const updated = await BookService.updateBook(id, body);
+            res.json(success(updated));
         } catch (error) {
             next(error);
         }
@@ -41,7 +45,7 @@ export class BookController {
         try {
             const id = parseId(String(req.params.id));
             const result = await BookService.deleteBook(id);
-            res.json(result);
+            res.json(success(result));
         } catch (error) {
             next(error);
         }
